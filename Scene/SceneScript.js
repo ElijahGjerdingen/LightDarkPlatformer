@@ -25,4 +25,18 @@ function init()
 {
     stage = new createjs.Stage("canvas");
 
+    createjs.Ticker.setfps(60);
+    createjs.Ticker.addEventListner("tick", tick);
+
+    var background = new createjs.Bitmap(preload.getResult("LBackground"));
+    background.setTransform(0, 0, 1, 1);
+    stage.addChild(background);
+
+    createjs.Sound.play("LMusic", createjs.Sound.INTERUPT_NONE, 0, 0, -1, .5, 0);
+    createBlocks();
+}
+
+function createBlocks()
+{
+    var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
 }
