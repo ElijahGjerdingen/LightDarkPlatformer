@@ -1,6 +1,7 @@
 // JavaScript source code
 var stage;
 var meter = 100;
+var preload
 
 function load()
 {
@@ -9,16 +10,17 @@ function load()
     createjs.sound.alternateExtensions = ["ogg"]; // <- switch this to alternate musical file type
     preload.addEventListner("complete", init);
 
-    preload.loadManifest([
-        { id: "LBackground", src: "/LightBackground.png" },
-        { id: "DBackground", src: "/DBackground.png"},
-        { id: "LGround", src: "/LGround.png" },
-        { id: "DGround", src: "/DGround.png"},
-        { id: "Lamp", src: "/Lamp.png" },
-        { id: "LMusic", src: "/LMusic.png" },
-        { id: "DMusic", src: "/DMusic.png" },
-        { id: "placeHolder", src: "/placeHolder.png"}
-    ])
+    preload.loadManifest
+    ([
+        { id: "LBackground", src: "/Scene/LightBackground.png" },
+        { id: "DBackground", src: "/Scene/DBackground.png" },
+        { id: "LGround", src: "/Scene/LGround.png" },
+        { id: "DGround", src: "/Scene/DGround.png" },
+        { id: "Lamp", src: "/Scene/Lamp.png" },
+        { id: "LMusic", src: "/Scene/LMusic.png" },
+        { id: "DMusic", src: "/Scene/DMusic.png" },
+        { id: "placeHolder", src: "/Scene/placeHolder.png" }
+    ]);
     preload.Load();
 }
 
@@ -35,6 +37,7 @@ function init()
 
     createjs.Sound.play("LMusic", createjs.Sound.INTERUPT_NONE, 0, 0, -1, .5, 0);
     createBlocks();
+    stage.update();
 }
 
 function createBlocks()
