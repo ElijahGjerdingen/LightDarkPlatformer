@@ -4,7 +4,7 @@ var meter = 100;
 
 function load()
 {
-    preload = new createjs.loadQueue(true);
+    preload = new createjs.LoadQueue(true);
     preload.installPlugin(createjs.Sound);
     createjs.sound.alternateExtensions = ["ogg"]; // <- switch this to alternate musical file type
     preload.addEventListner("complete", init);

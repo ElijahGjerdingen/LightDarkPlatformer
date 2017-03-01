@@ -15,7 +15,7 @@ var grounded = false;
 
 function load()
 {
-    preload = new createjs.loadQueue(true);
+    preload = new createjs.LoadQueue(true);
     preload.installPlugin(createjs.Sound);
     createjs.Sound.alternateExtensions = ["ogg"];
     preload.addEventListener("complete", init);
