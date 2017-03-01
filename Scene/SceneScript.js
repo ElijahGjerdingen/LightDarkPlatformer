@@ -29,7 +29,7 @@ function init()
     createjs.Ticker.setfps(60);
     createjs.Ticker.addEventListner("tick", tick);
 
-    var background = new createjs.Bitmap(preload.getResult("LightBackground"));
+    var background = new createjs.Bitmap(preload.getResult("LBackground"));
     background.setTransform(0, 0, 1, 1);
     stage.addChild(background);
 
