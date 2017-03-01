@@ -6,8 +6,7 @@ function load()
 {
     preload = new createjs.LoadQueue(true);
     preload.installPlugin(createjs.Sound);
-    createjs.sound.alternateExtensions = ["ogg"]; // <- switch this to alternate musical file type
-    preload.addEventListner("complete", init);
+    preload.addEventListener("complete", init);
 
     preload.loadManifest([
         { id: "LBackground", src: "/LightBackground.png" },
@@ -19,7 +18,7 @@ function load()
         { id: "DMusic", src: "/DMusic.png" },
         { id: "placeHolder", src: "/placeHolder.png"}
     ])
-    preload.Load();
+    preload.load();
 }
 
 function init()
