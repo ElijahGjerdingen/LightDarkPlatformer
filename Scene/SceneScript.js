@@ -6,7 +6,7 @@ function load()
 {
     preload = new createjs.loadQueue(true);
     preload.installPlugin(createjs.Sound);
-    createjs.sound.alternateExtensions = ["ogg"]; // <- switch this ti alternate musical file type
+    createjs.sound.alternateExtensions = ["ogg"]; // <- switch this to alternate musical file type
     preload.addEventListner("complete", init);
 
     preload.loadManifest([
@@ -16,7 +16,8 @@ function load()
         { id: "DGround", src: "/scene/DGround.png"},
         { id: "Lamp", src: "/scene/Lamp.png" },
         { id: "LMusic", src: "/scene/LMusic.png" },
-        { id: "DMusic", src: "/scene/DMusic.png"}
+        { id: "DMusic", src: "/scene/DMusic.png" },
+        {id: "placeHolder", src: "/scene/placeHolder.png"}
     ])
     preload.Load();
 }
@@ -38,5 +39,11 @@ function init()
 
 function createBlocks()
 {
-    var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
+    //var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
+    var x = 100;
+    var y = 100;
+    var platform = new Bitmap(preload.getResult("placeHolder"));
+    platform.x = x;
+    platform.y = y;
+    stage.addChild(platform);
 }
