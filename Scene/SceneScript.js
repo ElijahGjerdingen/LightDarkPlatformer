@@ -10,14 +10,14 @@ function load()
     preload.addEventListner("complete", init);
 
     preload.loadManifest([
-        { id: "LBackground", src: "/scene/LBackground.png" },
-        { id: "DBackground", src: "/scene/DBackground.png"},
-        { id: "LGround", src: "/scene/LGround.png" },
-        { id: "DGround", src: "/scene/DGround.png"},
-        { id: "Lamp", src: "/scene/Lamp.png" },
-        { id: "LMusic", src: "/scene/LMusic.png" },
-        { id: "DMusic", src: "/scene/DMusic.png" },
-        {id: "placeHolder", src: "/scene/placeHolder.png"}
+        { id: "LBackground", src: "/LightBackground.png" },
+        { id: "DBackground", src: "/DBackground.png"},
+        { id: "LGround", src: "/LGround.png" },
+        { id: "DGround", src: "/DGround.png"},
+        { id: "Lamp", src: "/Lamp.png" },
+        { id: "LMusic", src: "/LMusic.png" },
+        { id: "DMusic", src: "/DMusic.png" },
+        { id: "placeHolder", src: "/placeHolder.png"}
     ])
     preload.Load();
 }
@@ -29,7 +29,7 @@ function init()
     createjs.Ticker.setfps(60);
     createjs.Ticker.addEventListner("tick", tick);
 
-    var background = new createjs.Bitmap(preload.getResult("LBackground"));
+    var background = new createjs.Bitmap(preload.getResult("LightBackground"));
     background.setTransform(0, 0, 1, 1);
     stage.addChild(background);
 
