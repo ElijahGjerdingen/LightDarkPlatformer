@@ -61,11 +61,11 @@ function createBlocks()
     platform[1].y = y;
     stage.addChild(platform[1]);
 }
-CheckRectIntersection(platform[0], platform[1])
+function CheckRectIntersection( platform, character)
 {
     for (var i = 0; i < platform.length; i++)
     {
-        if ((platform[i].x == lumenPlaceholder.x && platform[i].y == lumenPlaceholder.y) || (platform[i].x == lumenPlaceholder.x && platform[i].y == (lumenPlaceholder.y + 1900)))
+        if ((platform.x == lumenPlaceholder.x && platform.y == lumenPlaceholder.y) || (platform.x == lumenPlaceholder.x && platform.y == (lumenPlaceholder.y + 1900)))
         {
 
         }
@@ -74,9 +74,12 @@ CheckRectIntersection(platform[0], platform[1])
 }
 function moveScene()
 {
-
+    backgroundContainer.getChildByName("background").x += 1;
+    backgroundContainer.getChildByName("mountains").x += 2;
+    backgroundContainer.getChildByName("trees").x += 3;
 }
 function tick()
 {
+    moveScene();
     stage.update();
 }
