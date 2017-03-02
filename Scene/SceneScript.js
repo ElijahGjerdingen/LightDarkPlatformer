@@ -93,6 +93,18 @@ function createBlocks()
     platform[1].y = y;
     platform[1].visible = false;
     stage.addChild(platform[1]);
+
+    platform.push(new createjs.Bitmap(preload.getResult("SLPlatform")));
+    platform[2].x = 150;
+    platform[2].y = 900 - 200;
+    stage.addChild(platform[2]);
+
+    platform.push(new createjs.Bitmap(preload.getResult("SDPlatform")));
+    platform[3].x = 150;
+    platform[3].y = 900 - 200;
+    platform[3].visible = false;
+    stage.addChild(platform[3]);
+
 }
 function CheckRectIntersection( platform, character)
 {
@@ -135,8 +147,11 @@ function tick()
     {
         backgroundContainer.visible = false;
         darkBackgroundContainer.visible = true;
-        platform[0].visible = false;
-        platform[1].visible = true;
+        for (var i = 0; i < (platform.length / 2) ; i++)
+        {
+            platform[2 * i].visible = false;
+            platform[(2 * i) + 1].visible = true;
+        }
     }
     else if (meter > 50)
     {
@@ -146,8 +161,10 @@ function tick()
     {
         backgroundContainer.visible = true;
         darkBackgroundContainer.visible = false;
-        platform[0].visible = true;
-        platform[1].visible = false;
+        for (var i = 0; i < (platform.length / 2) ; i++) {
+            platform[2 * i].visible = true;
+            platform[(2 * i) + 1].visible = false;
+        }
     }
     moveScene();
     
