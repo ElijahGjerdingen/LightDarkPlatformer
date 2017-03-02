@@ -9,7 +9,7 @@ function load()
     preload.addEventListener("complete", init);
 
     preload.loadManifest([
-        { id: "LBackground", src: "/LightBackground.png" },
+        { id: "LBackground", src: "LightBackground.png" },
         { id: "DBackground", src: "/DBackground.png"},
         { id: "LGround", src: "/LGround.png" },
         { id: "DGround", src: "/DGround.png"},
