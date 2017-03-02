@@ -4,29 +4,29 @@ var meter = 100;
 
 function load()
 {
-    preload = new createjs.loadQueue(true);
+    preload = new createjs.LoadQueue(true);
     preload.installPlugin(createjs.Sound);
-    createjs.sound.alternateExtensions = ["ogg"]; // <- switch this ti alternate musical file type
-    preload.addEventListner("complete", init);
+    preload.addEventListener("complete", init);
 
     preload.loadManifest([
-        { id: "LBackground", src: "/scene/LBackground.png" },
-        { id: "DBackground", src: "/scene/DBackground.png"},
-        { id: "LGround", src: "/scene/LGround.png" },
-        { id: "DGround", src: "/scene/DGround.png"},
-        { id: "Lamp", src: "/scene/Lamp.png" },
-        { id: "LMusic", src: "/scene/LMusic.png" },
-        { id: "DMusic", src: "/scene/DMusic.png"}
+        { id: "LBackground", src: "/Scene/LightBackground.png" },
+        /*{ id: "DBackground", src: "/DBackground.png"},
+        { id: "LGround", src: "/LGround.png" },
+        { id: "DGround", src: "/DGround.png"},
+        { id: "Lamp", src: "/Lamp.png" },
+        { id: "LMusic", src: "/LMusic.png" },
+        { id: "DMusic", src: "/DMusic.png" },*/
+        { id: "placeHolder", src: "/Scene/placeHolder.png"}
     ])
-    preload.Load();
+    preload.load();
 }
 
 function init()
 {
     stage = new createjs.Stage("canvas");
 
-    createjs.Ticker.setfps(60);
-    createjs.Ticker.addEventListner("tick", tick);
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addEventListener("tick", tick);
 
     var background = new createjs.Bitmap(preload.getResult("LBackground"));
     background.setTransform(0, 0, 1, 1);
@@ -38,5 +38,19 @@ function init()
 
 function createBlocks()
 {
-    var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
+    //var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
+    var x = 10;
+    var y = 800;
+    var platform = new createjs.Bitmap(preload.getResult("placeHolder"));
+    platform.x = x;
+    platform.y = y;
+    stage.addChild(platform);
+    var platform2 = new createjs.Bitmap(preload.getResult("placeHolder"));
+    platform2.x = x + 400;
+    platform2.y = y;
+    stage.addChild(platform2);
+}
+function tick()
+{
+    stage.update();
 }
