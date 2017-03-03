@@ -8,8 +8,24 @@ var darkBackgroundContainer;
 var backgroundContainer2;
 var darkBackgroundContainer2;
 var testText = new createjs.Text("test", "100px Ariel", "black");
-function load()
-{
+//Lumen
+var lumenImage;
+var lumen_stand;
+var lumen_walk;
+var lumen_jump;
+var lumen_fall;
+var goingRight = false;
+var grounded = false;
+//Lumen needs this
+lumenData = {
+    images: ["/LumenLambet/SpriteSheet.png"],
+    frames: { width: 400, height: 400, spacing: 1, count: 7, margin: 1 },
+    animations: {
+        stand: 0,
+        walk: [1, 4]
+    }
+}
+function load() {
     preload = new createjs.LoadQueue(true);
     preload.installPlugin(createjs.Sound);
     preload.addEventListener("complete", init);
@@ -31,6 +47,11 @@ function load()
         { id: "DarkTrees", src: "/Scene/TreesDark.png" },
         { id: "DarkMountains", src: "/Scene/BackhillDark.png" }
     ]);
+
+    //For lumen, with love
+    lumenImage = new Image();
+    lumenImage.src = "/LumenLambet/SpriteSheet.png";
+
     preload.load();
 }
 
@@ -77,6 +98,27 @@ function init()
 
     createjs.Sound.play("LMusic", createjs.Sound.INTERUPT_NONE, 0, 0, -1, .5, 0);
     createBlocks();
+
+    //Lumen init stuff
+    goingRight = true;
+    grounded = true;
+
+    var spritesheet = new createjs.SpriteSheet(lumenData);
+
+    lumen_stand = new createjs.Sprite(spritesheet);
+    lumen_stand.x = 25; lumen_stand.y = 75;
+
+    lumen_walk = new createjs.Sprite(spritesheet, 'walk');
+    lumen_walk.addEventListener("onkeydown", walk);
+    lumen_walk.x = 25; lumen_walk.y = 125;
+
+    stage.addChild(lumen_stand);
+    stage.addChild(lumen_walk);
+
+    window.onkeyup = handleKeyUp;
+    window.onkeydown = handleKeyDown;
+
+    stage.update();
 }
 
 function createBlocks()

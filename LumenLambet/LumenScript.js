@@ -10,16 +10,8 @@ var upkeydown = false;
 var downkeydown = false;
 
 var lumen;
-var lumenImage;
-var lumen_stand;
-var lumen_walk;
-var lumen_jump;
-var lumen_fall;
-var goingRight = false;
-var grounded = false;
-var stage;
-var lumenSS;
 
+/*
 lumenData = {
     images: ["/LumenLambet/SpriteSheet.png"],
     frames: { width: 400, height: 400, spacing: 1, count: 7, margin: 1 },
@@ -29,25 +21,7 @@ lumenData = {
     }
 }
 
-function load() {
-
-    lumenImage = new Image();
-    lumenImage.src = "/LumenLambet/SpriteSheet.png";
-    lumenImage.onload = function () { init();}
-
-  /*  preload = new createjs.LoadQueue(true);
-    preload.installPlugin(createjs.Sound);
-    preload.addEventListener("complete", init);
-
-    preload.loadManifest([
-
-        { id: "SpriteSheet", src: "img/LumenLambet/SpriteSheet.png" }
-    ]);
-
-    preload.load(); */
-}
-
-function init() {
+function initLumen() {
     goingRight = true;
     grounded = true;
 
@@ -75,7 +49,7 @@ function init() {
     window.onkeydown = handleKeyDown;
 
     stage.update();
-}
+}*/
 
 function walk(e) {
 
