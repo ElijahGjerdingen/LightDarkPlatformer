@@ -23,7 +23,7 @@ function load()
         { id: "PlayerSprite", src: "/SpriteSheet.png" }
     ]);
 
-    init();
+    preload.load();
 }
 
 function init() {
