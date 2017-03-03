@@ -105,15 +105,22 @@ function createBlocks()
     platform[3].visible = false;
     stage.addChild(platform[3]);
 
-}
-function CheckRectIntersection( platform, character)
-{
-    for (var i = 0; i < platform.length; i++)
-    {
-        if ((platform.x == lumenPlaceholder.x && platform.y == lumenPlaceholder.y) || (platform.x == lumenPlaceholder.x && platform.y == (lumenPlaceholder.y + 1900)))
-        {
+    platform.push(new createjs.Bitmap(preload.getResult("SLPlatform")));
+    platform[4].x = 250;
+    platform[4].y = 900 - 200;
+    stage.addChild(platform[4]);
 
-        }
+    platform.push(new createjs.Bitmap(preload.getResult("SDPlatform")));
+    platform[5].x = 250;
+    platform[5].y = 900 - 200;
+    platform[5].visible = false;
+    stage.addChild(platform[5]);
+
+}
+function CheckRectIntersection( object, character)
+{
+    if(object.x == character.x + 75 || object.x + 150 == character.x || object.y == character.y + 75 || object.y + 35 == character.y )
+    {
 
     }
 }
