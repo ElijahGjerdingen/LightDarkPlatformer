@@ -12,6 +12,8 @@ var downkeydown = false;
 var lumen;
 var goingRight = false;
 var grounded = false;
+var stage;
+var lumenSS;
 
 function load()
 {
@@ -20,15 +22,26 @@ function load()
     preload.addEventListener("complete", init);
 
     preload.loadManifest([
-        { id: "PlayerSprite", src: "/LumenLambent/Lumen" }
+        { id: "SpriteSheet", src: "img/SpriteSheet.png" }
     ]);
 
     init();
 }
 
+lumenSSData = {
+    images: ["img/SpriteSheet.png"],
+    frames: [[1, 1, 400, 400], [401, 1, 400, 400]],
+    animations: {
+        stand: 0,
+        walk: [0, 1]
+    }
+}
+
 function init() {
     goingRight = true;
     grounded = true;
+
+    lumenSS = new createjs.SpriteSheetqueue.getResult('SpriteSheet');
 
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", run);
