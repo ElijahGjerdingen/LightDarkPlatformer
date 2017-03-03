@@ -106,13 +106,13 @@ function createBlocks()
     stage.addChild(platform[3]);
 
     platform.push(new createjs.Bitmap(preload.getResult("SLPlatform")));
-    platform[4].x = 250;
-    platform[4].y = 900 - 200;
+    platform[4].x = 400;
+    platform[4].y = 700;
     stage.addChild(platform[4]);
 
     platform.push(new createjs.Bitmap(preload.getResult("SDPlatform")));
-    platform[5].x = 250;
-    platform[5].y = 900 - 200;
+    platform[5].x = 400;
+    platform[5].y = 700;
     platform[5].visible = false;
     stage.addChild(platform[5]);
 
