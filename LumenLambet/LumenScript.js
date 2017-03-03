@@ -10,49 +10,79 @@ var upkeydown = false;
 var downkeydown = false;
 
 var lumen;
+var lumenImage;
+var lumen_stand;
+var lumen_walk;
+var lumen_jump;
+var lumen_fall;
 var goingRight = false;
 var grounded = false;
 var stage;
 var lumenSS;
 
-function load()
-{
-    preload = new createjs.LoadQueue(true);
+lumenData = {
+    images: ["/LumenLambet/SpriteSheet.png"],
+    frames: { width: 400, height: 400, spacing: 1, count: 7, margin: 1 },
+    animations: {
+        stand: 0,
+        walk: [1, 4]
+    }
+}
+
+function load() {
+
+    lumenImage = new Image();
+    lumenImage.src = "/LumenLambet/SpriteSheet.png";
+    lumenImage.onload = function () { init();}
+
+  /*  preload = new createjs.LoadQueue(true);
     preload.installPlugin(createjs.Sound);
     preload.addEventListener("complete", init);
 
     preload.loadManifest([
 
-        { id: "SpriteSheet", src: "img/SpriteSheet.png" }
+        { id: "SpriteSheet", src: "img/LumenLambet/SpriteSheet.png" }
     ]);
 
-    preload.load();
-}
-
-lumenSSData = {
-    images: ["img/SpriteSheet.png"],
-    frames: [[1, 1, 400, 400], [401, 1, 400, 400]],
-    animations: {
-        stand: 0,
-        walk: [0, 1]
-    }
+    preload.load(); */
 }
 
 function init() {
     goingRight = true;
     grounded = true;
 
-    lumenSS = new createjs.SpriteSheetqueue.getResult('SpriteSheet');
+    stage = new createjs.Stage("canvas");
+
+    //lumen = new createjs.Bitmap(lumenImage);
+    //lumen.x = 25; lumen.y = 25;
+    //stage.addChild(lumen);
+
+    var spritesheet = new createjs.SpriteSheet(lumenData);
+
+    lumen_stand = new createjs.Sprite(spritesheet);
+    lumen_stand.x = 25; lumen_stand.y = 75;
+
+    lumen_walk = new createjs.Sprite(spritesheet, 'walk');
+    lumen_walk.addEventListener("change", walk);
+    lumen_walk.x = 25; lumen_walk.y = 125;
+
+    stage.addChild(lumen_stand, lumen_walk);
 
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", run);
 
     window.onkeyup = handleKeyUp;
     window.onkeydown = handleKeyDown;
+
+    stage.update();
+}
+
+function walk(e) {
+
 }
 
 function run(e) {
-    if (leftkeydown) {
+  /*  if (leftkeydown) {
         goingRight = false;
         lumen.x -= 10;
     }
@@ -65,10 +95,10 @@ function run(e) {
             jump();
         }
     }
-    if (downkeydown) {
-
-    }
+*/    stage.update();
 }
+
+
 
 function jump(e) {
     grounded = false;
