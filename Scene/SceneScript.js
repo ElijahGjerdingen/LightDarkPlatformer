@@ -117,14 +117,10 @@ function createBlocks()
     stage.addChild(platform[5]);
 
 }
-function CheckRectIntersection( platform, character)
+function CheckRectIntersection( object, character)
 {
-    for (var i = 0; i < platform.length; i++)
+    if(object.x == character.x + 75 || object.x + 150 == character.x || object.y == character.y + 75 || object.y + 35 == character.y )
     {
-        if ((platform.x == lumenPlaceholder.x && platform.y == lumenPlaceholder.y) || (platform.x == lumenPlaceholder.x && platform.y == (lumenPlaceholder.y + 1900)))
-        {
-
-        }
 
     }
 }
