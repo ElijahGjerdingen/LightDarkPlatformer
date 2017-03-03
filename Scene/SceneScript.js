@@ -10,21 +10,10 @@ var darkBackgroundContainer2;
 var testText = new createjs.Text("test", "100px Ariel", "black");
 //Lumen
 var lumenImage;
-var lumen_stand;
-var lumen_walk;
-var lumen_jump;
-var lumen_fall;
+var lumen;
 var goingRight = false;
 var grounded = false;
-//Lumen needs this
-lumenData = {
-    images: ["/LumenLambet/SpriteSheet.png"],
-    frames: { width: 400, height: 400, spacing: 1, count: 7, margin: 1 },
-    animations: {
-        stand: 0,
-        walk: [1, 4]
-    }
-}
+
 function load() {
     preload = new createjs.LoadQueue(true);
     preload.installPlugin(createjs.Sound);
@@ -45,18 +34,16 @@ function load() {
         { id: "SDPlatform", src: "/Scene/ShortFloatDark.png" },
         { id: "LDPlatform", src: "/Scene/LongFloatDark.png" },
         { id: "DarkTrees", src: "/Scene/TreesDark.png" },
-        { id: "DarkMountains", src: "/Scene/BackhillDark.png" }
+        { id: "DarkMountains", src: "/Scene/BackhillDark.png" },
+        { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" }
     ]);
-
-    //For lumen, with love
-    lumenImage = new Image();
-    lumenImage.src = "/LumenLambet/SpriteSheet.png";
 
     preload.load();
 }
 
-function init()
-{
+
+
+function init() {
     stage = new createjs.Stage("canvas");
 
     createjs.Ticker.setFPS(60);
@@ -103,17 +90,21 @@ function init()
     goingRight = true;
     grounded = true;
 
+    var lumenData = {
+        "images": [preload.getResult("Lumen")],
+        "frames": { width: 400, height: 400, count: 7 },
+        "animations": {
+            "stand": [0, 0],
+            "walk": [1, 4]
+        }
+    }
+
     var spritesheet = new createjs.SpriteSheet(lumenData);
 
-    lumen_stand = new createjs.Sprite(spritesheet);
-    lumen_stand.x = 25; lumen_stand.y = 75;
+    lumen = new createjs.Sprite(spritesheet, "stand");
+    lumen.x = 25; lumen.y = 75;
 
-    lumen_walk = new createjs.Sprite(spritesheet, 'walk');
-    lumen_walk.addEventListener("onkeydown", walk);
-    lumen_walk.x = 25; lumen_walk.y = 125;
-
-    stage.addChild(lumen_stand);
-    stage.addChild(lumen_walk);
+    stage.addChild(lumen);
 
     window.onkeyup = handleKeyUp;
     window.onkeydown = handleKeyDown;
@@ -121,16 +112,15 @@ function init()
     stage.update();
 }
 
-function createBlocks()
-{
+function createBlocks() {
     //var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
     var x = 0;
     var y = 800;
-    platform.push( new createjs.Bitmap(preload.getResult("LGround")));
+    platform.push(new createjs.Bitmap(preload.getResult("LGround")));
     platform[0].x = x;
     platform[0].y = y;
     stage.addChild(platform[0]);
-    platform.push( new createjs.Bitmap(preload.getResult("DGround")));
+    platform.push(new createjs.Bitmap(preload.getResult("DGround")));
     platform[1].x = x;
     platform[1].y = y;
     platform[1].visible = false;
@@ -159,17 +149,13 @@ function createBlocks()
     stage.addChild(platform[5]);
 
 }
-function CheckRectIntersection( object, character)
-{
-    if(object.x == character.x + 75 || object.x + 150 == character.x || object.y == character.y + 75 || object.y + 35 == character.y )
-    {
+function CheckRectIntersection(object, character) {
+    if (object.x == character.x + 75 || object.x + 150 == character.x || object.y == character.y + 75 || object.y + 35 == character.y) {
 
     }
 }
-function moveScene()
-{
-    for (var i = 0; i < 3; i++)
-    {
+function moveScene() {
+    for (var i = 0; i < 3; i++) {
         backgroundContainer.getChildAt((2 * i)).x -= (i + 1);
         backgroundContainer.getChildAt((2 * i) + 1).x -= (i + 1);
         darkBackgroundContainer.getChildAt((2 * i)).x -= (i + 1);
@@ -184,30 +170,24 @@ function moveScene()
         }
     }
     testText.text = "";
-    for(var i = 0; i < 6; i++)
-    {
+    for (var i = 0; i < 6; i++) {
         testText.text += backgroundContainer.getChildAt(i).x + " ";
     }
-    
+
 }
-function tick()
-{
-    if (meter <= 50)
-    {
+function tick() {
+    if (meter <= 50) {
         backgroundContainer.visible = false;
         darkBackgroundContainer.visible = true;
-        for (var i = 0; i < (platform.length / 2) ; i++)
-        {
+        for (var i = 0; i < (platform.length / 2) ; i++) {
             platform[2 * i].visible = false;
             platform[(2 * i) + 1].visible = true;
         }
     }
-    else if (meter > 50)
-    {
-        meter -= 1/15;
+    else if (meter > 50) {
+        meter -= 1 / 15;
     }
-    else if (meter == 100)
-    {
+    else if (meter == 100) {
         backgroundContainer.visible = true;
         darkBackgroundContainer.visible = false;
         for (var i = 0; i < (platform.length / 2) ; i++) {
@@ -216,6 +196,6 @@ function tick()
         }
     }
     moveScene();
-    
+
     stage.update();
 }
