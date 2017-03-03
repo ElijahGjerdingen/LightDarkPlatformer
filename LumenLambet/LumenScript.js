@@ -22,11 +22,8 @@ function load()
     preload.addEventListener("complete", init);
 
     preload.loadManifest([
-<<<<<<< HEAD
-        { id: "PlayerSprite", src: "/SpriteSheet.png" }
-=======
+
         { id: "SpriteSheet", src: "img/SpriteSheet.png" }
->>>>>>> refs/remotes/origin/Player
     ]);
 
     preload.load();
