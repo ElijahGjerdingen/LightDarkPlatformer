@@ -20,7 +20,7 @@ function load()
     preload.addEventListener("complete", init);
 
     preload.loadManifest([
-        { id: "PlayerSprite", src: "/LumenLambent/Lumen" }
+        { id: "PlayerSprite", src: "/SpriteSheet.png" }
     ]);
 
     init();
