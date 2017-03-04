@@ -90,11 +90,11 @@ function init() {
     grounded = true;
 
     var lumenSpriteSheet = new createjs.SpriteSheet({
-        "images": [preload.getResult("Lumen")],
-        "frames": { "width": 400, "height": 400, "count": 7 },
-        "animations": {
-            "stand": 0,
-            "walk": [1, 4]
+        images: [preload.getResult("Lumen")],
+        frames: { width: 400, height: 400, count: 7 },
+        animations: {
+            stand: 0,
+            walk: [1, 4]
         }
     });
 
