@@ -9,7 +9,6 @@ var backgroundContainer2;
 var darkBackgroundContainer2;
 var testText = new createjs.Text("test", "100px Ariel", "black");
 //Lumen
-var lumenImage;
 var lumen;
 var goingRight = false;
 var grounded = false;
@@ -90,20 +89,17 @@ function init() {
     goingRight = true;
     grounded = true;
 
-    var lumenData = {
+    var lumenSpriteSheet = new createjs.SpriteSheet({
         "images": [preload.getResult("Lumen")],
-        "frames": { width: 400, height: 400, count: 7 },
+        "frames": { "width": 400, "height": 400, "count": 7 },
         "animations": {
-            "stand": [0, 0],
+            "stand": 0,
             "walk": [1, 4]
         }
-    }
+    });
 
-    var spritesheet = new createjs.SpriteSheet(lumenData);
-
-    lumen = new createjs.Sprite(spritesheet, "stand");
+    lumen = new createjs.Sprite(lumenSpriteSheet, "stand");
     lumen.x = 25; lumen.y = 75;
-
     stage.addChild(lumen);
 
     window.onkeyup = handleKeyUp;

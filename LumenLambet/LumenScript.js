@@ -9,48 +9,6 @@ var rightkeydown = false;
 var upkeydown = false;
 var downkeydown = false;
 
-var lumen;
-
-/*
-lumenData = {
-    images: ["/LumenLambet/SpriteSheet.png"],
-    frames: { width: 400, height: 400, spacing: 1, count: 7, margin: 1 },
-    animations: {
-        stand: 0,
-        walk: [1, 4]
-    }
-}
-
-function initLumen() {
-    goingRight = true;
-    grounded = true;
-
-    stage = new createjs.Stage("canvas");
-
-    //lumen = new createjs.Bitmap(lumenImage);
-    //lumen.x = 25; lumen.y = 25;
-    //stage.addChild(lumen);
-
-    var spritesheet = new createjs.SpriteSheet(lumenData);
-
-    lumen_stand = new createjs.Sprite(spritesheet);
-    lumen_stand.x = 25; lumen_stand.y = 75;
-
-    lumen_walk = new createjs.Sprite(spritesheet, 'walk');
-    lumen_walk.addEventListener("change", walk);
-    lumen_walk.x = 25; lumen_walk.y = 125;
-
-    stage.addChild(lumen_stand, lumen_walk);
-
-    createjs.Ticker.setFPS(60);
-    createjs.Ticker.addEventListener("tick", run);
-
-    window.onkeyup = handleKeyUp;
-    window.onkeydown = handleKeyDown;
-
-    stage.update();
-}*/
-
 function walk(e) {
 
 }
