@@ -14,6 +14,14 @@ var image;
 var lumenSpriteSheet;
 var goingRight = false;
 var grounded = false;
+var camera = {
+    x: 0,
+    y: 0,
+    zoom: 1
+}
+var size = 45 * camera.zoom;
+var Container = createjs.Container;
+var cameraContainer = new Container();
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -100,7 +108,7 @@ function init() {
     });
 
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
-    lumen.x = 25; lumen.y = 75;
+    lumen.x = 25; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
     stage.addChild(lumen);
     
@@ -114,37 +122,14 @@ function createBlocks() {
     //var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
     var x = 0;
     var y = 800;
-    platform.push(new createjs.Bitmap(preload.getResult("LGround")));
-    platform[0].x = x;
-    platform[0].y = y;
-    stage.addChild(platform[0]);
-    platform.push(new createjs.Bitmap(preload.getResult("DGround")));
-    platform[1].x = x;
-    platform[1].y = y;
-    platform[1].visible = false;
-    stage.addChild(platform[1]);
-
-    platform.push(new createjs.Bitmap(preload.getResult("SLPlatform")));
-    platform[2].x = 150;
-    platform[2].y = 900 - 200;
-    stage.addChild(platform[2]);
-
-    platform.push(new createjs.Bitmap(preload.getResult("SDPlatform")));
-    platform[3].x = 150;
-    platform[3].y = 900 - 200;
-    platform[3].visible = false;
-    stage.addChild(platform[3]);
-
-    platform.push(new createjs.Bitmap(preload.getResult("SLPlatform")));
-    platform[4].x = 400;
-    platform[4].y = 700;
-    stage.addChild(platform[4]);
-
-    platform.push(new createjs.Bitmap(preload.getResult("SDPlatform")));
-    platform[5].x = 400;
-    platform[5].y = 700;
-    platform[5].visible = false;
-    stage.addChild(platform[5]);
+    
+    lightDarkPlatform(x, y, 0, 1, "LGround", "DGround");
+    lightDarkPlatform(150, 700, 2, 3, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(400, 650, 4, 5, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(650, 650, 6, 7, "LLPlatform", "LDPlatform");
+    lightDarkPlatform(550, 450, 8, 9, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(0, 550, 10, 11, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(50, 400, 12, 13, "SLPlatform", "SDPlatform");
 
 }
 function CheckRectIntersection(object, character) {
@@ -173,6 +158,18 @@ function moveScene() {
     }
 
 }
+function updateCamera()
+{
+    var xMin = 0 + camera.x * camera.zoom - size;
+    var yMin = 0 + camera.y * camera.zoom - size;
+    var xMax = window.innerWidth + camera.x * camera.zoom + size;
+    var yMax = window.innerHeight + camera.y * camera.zoom + size;
+
+    cameraContainer.x = -camera.x + camera.zoom;
+    cameraContainer.x = -camera.y + camera.zoom;
+
+
+}
 function tick() {
     if (meter <= 50) {
         backgroundContainer.visible = false;
@@ -196,4 +193,17 @@ function tick() {
     moveScene();
 
     stage.update();
+}
+function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStringD)
+{
+    platform.push(new createjs.Bitmap(preload.getResult(imageStringL)));
+    platform[lightI].x = platX;
+    platform[lightI].y = platY;
+    stage.addChild(platform[lightI]);
+
+    platform.push(new createjs.Bitmap(preload.getResult(imageStringD)));
+    platform[darkI].x = platX;
+    platform[darkI].y = platY;
+    platform[darkI].visible = false;
+    stage.addChild(platform[darkI]);
 }
