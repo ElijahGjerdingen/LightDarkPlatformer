@@ -117,10 +117,16 @@ function init() {
         frames: { width: 345, height: 360, count: 7 },
         animations: {
             stand: 0,
-            walk: [1, 4]
+            walk: [1, 4],
+            jump: 5,
+            fall: 6,
+            _walk: [8, 11],
+            _jump: 12,
+            _fall: 13
         }
     });
-
+    
+    createjs.SpriteSheetUtils.addFlippedFrames(lumenSpriteSheet, true, false, false);
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
     lumen.x = 25; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
