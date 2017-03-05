@@ -10,6 +10,13 @@ var darkBackgroundContainer2;
 var light;
 var testText = new createjs.Text("test", "100px Ariel", "black");
 //Lumen
+const ARROW_KEY_Up = 87;
+const ARROW_KEY_Down = 83;
+const ARROW_KEY_Left = 65;
+const ARROW_KEY_Right = 68;
+var leftkeydown = false;
+var rightkeydown = false;
+var upkeydown = false;
 var lumen;
 var image;
 var lumenSpriteSheet;
@@ -110,33 +117,17 @@ function init() {
     });
 
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
-    lumen.addEventListener("keydown", walk);
     lumen.x = 25; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
     stage.addChild(lumen);
-    
-    window.onkeyup = handleKeyUp;
+    //lumen.addEventListener("keydown", run);
+
     window.onkeydown = handleKeyDown;
+    window.onkeyup = handleKeyUp;
 
     stage.update();
 }
 
-function walk(e) {
-    if (leftkeydown) {
-        goingRight = false;
-        lumen.x -= 10;
-    }
-    if (rightkeydown) {
-        goingRight = true;
-        lumen.x += 10;
-    }
-    if (spacebarkeydown) {
-        if (grounded) {
-            jump();
-        }
-    }
-    stage.update();
-}
 
 
 function createBlocks() {
@@ -212,6 +203,13 @@ function tick() {
         }
     }
     moveScene();
+    //Lumen
+    if (leftkeydown || rightkeydown) {
+        walk();
+    }
+    if (upkeydown && grounded) {
+        jump();
+    }
     stage.update();
 }
 function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStringD)
@@ -230,18 +228,18 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
 
 function handleKeyDown(e) {
     switch (e.keyCode) {
-        case ARROW_KEY_Left: leftkeydown = true; break;
-        case ARROW_KEY_Right: rightkeydown = true; break;
-        case ARROW_KEY_Up: upkeydown = true; break;
-        case ARROW_KEY_Down: downkeydown = true; break;
+        case 65: leftkeydown = true; break;
+        case 68: rightkeydown = true; break;
+        case 87: upkeydown = true; break;
+        case 83: downkeydown = true; break;
     }
 }
 
 function handleKeyUp(e) {
     switch (e.keyCode) {
-        case ARROW_KEY_Left: leftkeydown = false; break;
-        case ARROW_KEY_Right: rightkeydown = false; break;
-        case ARROW_KEY_Up: upkeydown = false; break;
-        case ARROW_KEY_Down: downkeydown = false; break;
+        case 65: leftkeydown = false; break;
+        case 68: rightkeydown = false; break;
+        case 87: upkeydown = false; break;
+        case 83: downkeydown = false; break;
     }
 }
