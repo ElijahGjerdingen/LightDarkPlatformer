@@ -6,30 +6,40 @@ const ARROW_KEY_Right = 55;
 
 var leftkeydown = false;
 var rightkeydown = false;
-var upkeydown = false;
-var downkeydown = false;
-
+var spacebarkeydown = false;
+/*
 function walk(e) {
-
-}
-
-function run(e) {
-  /*  if (leftkeydown) {
+    if (leftkeydown) {
         goingRight = false;
-        lumen.x -= 10;
+        var l = e.target;
+        s.x -= 10;
     }
     if (rightkeydown) {
         goingRight = true;
-        lumen.x += 10;
+        var r = e.target;
+        r.x += 10;
     }
-    if (upkeydown) {
+    if (spacebarkeydown) {
         if (grounded) {
             jump();
         }
     }
-*/    stage.update();
-}
+    stage.update();
+}*/
 
+
+function run(e) {
+    if (leftkeydown || rightkeydown) {
+        walk();
+    }
+    if (spacebarkeydown) {
+        if (grounded) {
+            jump();
+        }
+    }
+    return lumen;
+    stage.update();
+}
 
 
 function jump(e) {
@@ -43,7 +53,7 @@ function jump(e) {
     }
     grounded = true;
 }
-
+/*
 function handleKeyDown(e) {
     switch (e.keyCode) {
         case ARROW_KEY_Left: leftkeydown = true; break;
@@ -61,3 +71,4 @@ function handleKeyUp(e) {
         case ARROW_KEY_Down: downkeydown = false; break;
     }
 }
+*/
