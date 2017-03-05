@@ -30,6 +30,9 @@ var camera = {
 var size = 45 * camera.zoom;
 var Container = createjs.Container;
 var cameraContainer = new Container();
+var platformBounds = [];
+var lumenBounds;
+var janusBounds;
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -52,7 +55,9 @@ function load() {
         { id: "LDPlatform", src: "/Scene/LongFloatDark.png" },
         { id: "DarkTrees", src: "/Scene/TreesDark.png" },
         { id: "DarkMountains", src: "/Scene/BackhillDark.png" },
-        { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" }
+        { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" },
+        { id: "LJanus", src: "/Janus/Frank.png" },
+        { id: "DJanus", src: "/Janus/DarkFrank.png"}
     ]);
     preload.load();
 }
@@ -142,7 +147,8 @@ function createBlocks() {
     lightDarkPlatform(550, 450, 8, 9, "SLPlatform", "SDPlatform");
     lightDarkPlatform(0, 550, 10, 11, "SLPlatform", "SDPlatform");
     lightDarkPlatform(50, 400, 12, 13, "SLPlatform", "SDPlatform");
-
+    
+    alert(platformBounds[4].x + " " + platformBounds[4].y + " " + platformBounds[4].width + " " + platformBounds[4].height);
 }
 function CheckRectIntersection(object, character) {
     if (object.x == character.x + 75 || object.x + 150 == character.x || object.y == character.y + 75 || object.y + 35 == character.y) {
@@ -224,6 +230,13 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
     platform[darkI].y = platY;
     platform[darkI].visible = false;
     stage.addChild(platform[darkI]);
+
+        platformBounds[lightI] = platform[lightI].getBounds();
+        platformBounds[darkI] = platform[darkI].getBounds();
+        platformBounds[lightI].x = platX;
+        platformBounds[lightI].y = platY;
+        platformBounds[darkI].x = platX;
+        platformBounds[darkI].x = platY;
 }
 
 function handleKeyDown(e) {
