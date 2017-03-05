@@ -16,7 +16,6 @@ function jump(e) {
         lumen.y -= 150;
         grounded = false;
     }
-    
 }
 
 
