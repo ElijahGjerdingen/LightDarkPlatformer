@@ -18,8 +18,8 @@ var leftkeydown = false;
 var rightkeydown = false;
 var upkeydown = false;
 var lumen;
-var janus;
-var janusD;
+var janus = [];
+var janusD = [];
 var image;
 var lumenSpriteSheet;
 var goingRight = false;
@@ -154,13 +154,15 @@ function init() {
     stage.addChild(lumen);
     //lumen.addEventListener("keydown", run);
 
-    janus = new createjs.Sprite(janusSpriteSheet, 'stand')
+    lightDarkJanus(25, 400, 0, janusSpriteSheet, janusDarkSpriteSheet);
+
+    /*janus = new createjs.Sprite(janusSpriteSheet, 'stand')
     janus.x = 25; janus.y = 400;
     stage.addChild(janus);
 
     janusD = new createjs.Sprite(janusDarkSpriteSheet, 'stand')
-    janusD.x = 25; janus.y = 200;
-    stage.addChild(janusD);
+    janusD.x = 25; janus.y = 400;
+    stage.addChild(janusD);*/
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
@@ -230,6 +232,12 @@ function tick() {
             platform[2 * i].visible = false;
             platform[(2 * i) + 1].visible = true;
         }
+        for (var i = 0; i < janus.length; i++)
+        {
+            janus[i].visible = false;
+            janusD[i].visible = true;
+        }
+
     }
     else if (meter > 50) {
         meter -= 1 / 15;
@@ -240,6 +248,11 @@ function tick() {
         for (var i = 0; i < (platform.length / 2) ; i++) {
             platform[2 * i].visible = true;
             platform[(2 * i) + 1].visible = false;
+        }
+        for(var i = 0; i < janus.length; i++)
+        {
+            janus[i].visible = true;
+            janusD[i].visible = false;
         }
     }
     moveScene();
@@ -271,7 +284,17 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
     platformBounds[darkI].x = platX;
     platformBounds[darkI].x = platY;
 }
+function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet)
+{
+    janus[jI] = new createjs.Sprite(lightSpriteSheet, 'stand')
+    janus[jI].x = jX; janus[jI].y = jY;
+    stage.addChild(janus[jI]);
 
+    janusD[jI] = new createjs.Sprite(darkSpriteSheet, 'stand')
+    janusD[jI].x = jX; janusD[jI].y = jY;
+    janusD[jI].visible = false;
+    stage.addChild(janusD[jI]);
+}
 function handleKeyDown(e) {
     switch (e.keyCode) {
         case 65: leftkeydown = true; break;
