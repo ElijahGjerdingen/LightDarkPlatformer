@@ -3,24 +3,20 @@
 function walk(e) {
     if (leftkeydown) {
         goingRight = false;
-        lumen.x -= 10;
+        lumen.x -= 5;
     }
     if (rightkeydown) {
         goingRight = true;
-        lumen.x += 10;
+        lumen.x += 5;
     }
 }
 
 function jump(e) {
-    grounded = false;
-    if (goingRight) {
-        lumen.y += 10;
-        lumen.x += 5;
-    } else {
-        lumen.y += 10;
-        lumen.x -= 5;
+    if (grounded == true) {
+        lumen.y -= 150;
+        grounded = false;
     }
-    grounded = true;
+    
 }
 
 
