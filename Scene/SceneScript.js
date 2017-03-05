@@ -101,6 +101,7 @@ function init() {
 
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
     lumen.x = 25; lumen.y = 75;
+    lumen.scaleX = .21739; lumen.scaleY = .20833;
     stage.addChild(lumen);
     
     window.onkeyup = handleKeyUp;
