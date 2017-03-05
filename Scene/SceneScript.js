@@ -18,6 +18,8 @@ var leftkeydown = false;
 var rightkeydown = false;
 var upkeydown = false;
 var lumen;
+var janus;
+var janusD;
 var image;
 var lumenSpriteSheet;
 var goingRight = false;
@@ -57,7 +59,7 @@ function load() {
         { id: "DarkMountains", src: "/Scene/BackhillDark.png" },
         { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" },
         { id: "LJanus", src: "/Janus/Frank.png" },
-        { id: "DJanus", src: "/Janus/DarkFrank.png"}
+        { id: "DJanus", src: "/Janus/DarkFrank.png" }
     ]);
     preload.load();
 }
@@ -66,6 +68,7 @@ function load() {
 
 function init() {
     light = true;
+
     stage = new createjs.Stage("canvas");
 
     createjs.Ticker.setFPS(60);
@@ -125,13 +128,39 @@ function init() {
             _fall: 13
         }
     });
-    
+
+    janusSpriteSheet = new createjs.SpriteSheet({
+        images: [preload.getResult("LJanus")],
+        frames: { width: 75, height: 100, count: 6 },
+        animations: {
+            stand: [0, 2],
+            patrol: [3, 5]
+        }
+    });
+
+    janusDarkSpriteSheet = new createjs.SpriteSheet({
+        images: [preload.getResult("DJanus")],
+        frames: { width: 75, height: 100, count: 6 },
+        animations: {
+            stand: [0, 2],
+            patrol: [3, 5]
+        }
+    });
+
     createjs.SpriteSheetUtils.addFlippedFrames(lumenSpriteSheet, true, false, false);
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
     lumen.x = 25; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
     stage.addChild(lumen);
     //lumen.addEventListener("keydown", run);
+
+    janus = new createjs.Sprite(janusSpriteSheet, 'stand')
+    janus.x = 25; janus.y = 400;
+    stage.addChild(janus);
+
+    janusD = new createjs.Sprite(janusDarkSpriteSheet, 'stand')
+    janusD.x = 25; janus.y = 200;
+    stage.addChild(janusD);
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
@@ -145,7 +174,7 @@ function createBlocks() {
     //var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
     var x = 0;
     var y = 800;
-    
+
     lightDarkPlatform(x, y, 0, 1, "LGround", "DGround");
     lightDarkPlatform(150, 700, 2, 3, "SLPlatform", "SDPlatform");
     lightDarkPlatform(400, 650, 4, 5, "SLPlatform", "SDPlatform");
@@ -153,7 +182,7 @@ function createBlocks() {
     lightDarkPlatform(550, 450, 8, 9, "SLPlatform", "SDPlatform");
     lightDarkPlatform(0, 550, 10, 11, "SLPlatform", "SDPlatform");
     lightDarkPlatform(50, 400, 12, 13, "SLPlatform", "SDPlatform");
-    
+
     alert(platformBounds[4].x + " " + platformBounds[4].y + " " + platformBounds[4].width + " " + platformBounds[4].height);
 }
 function CheckRectIntersection(object, character) {
@@ -182,8 +211,7 @@ function moveScene() {
     }
 
 }
-function updateCamera()
-{
+function updateCamera() {
     var xMin = 0 + camera.x * camera.zoom - size;
     var yMin = 0 + camera.y * camera.zoom - size;
     var xMax = window.innerWidth + camera.x * camera.zoom + size;
@@ -224,8 +252,7 @@ function tick() {
     }
     stage.update();
 }
-function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStringD)
-{
+function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStringD) {
     platform.push(new createjs.Bitmap(preload.getResult(imageStringL)));
     platform[lightI].x = platX;
     platform[lightI].y = platY;
@@ -237,12 +264,12 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
     platform[darkI].visible = false;
     stage.addChild(platform[darkI]);
 
-        platformBounds[lightI] = platform[lightI].getBounds();
-        platformBounds[darkI] = platform[darkI].getBounds();
-        platformBounds[lightI].x = platX;
-        platformBounds[lightI].y = platY;
-        platformBounds[darkI].x = platX;
-        platformBounds[darkI].x = platY;
+    platformBounds[lightI] = platform[lightI].getBounds();
+    platformBounds[darkI] = platform[darkI].getBounds();
+    platformBounds[lightI].x = platX;
+    platformBounds[lightI].y = platY;
+    platformBounds[darkI].x = platX;
+    platformBounds[darkI].x = platY;
 }
 
 function handleKeyDown(e) {
