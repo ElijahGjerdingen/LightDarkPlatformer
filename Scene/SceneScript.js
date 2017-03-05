@@ -10,6 +10,8 @@ var darkBackgroundContainer2;
 var testText = new createjs.Text("test", "100px Ariel", "black");
 //Lumen
 var lumen;
+var image;
+var lumenSpriteSheet;
 var goingRight = false;
 var grounded = false;
 
@@ -36,7 +38,6 @@ function load() {
         { id: "DarkMountains", src: "/Scene/BackhillDark.png" },
         { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" }
     ]);
-
     preload.load();
 }
 
@@ -88,20 +89,20 @@ function init() {
     //Lumen init stuff
     goingRight = true;
     grounded = true;
-
-    var lumenSpriteSheet = new createjs.SpriteSheet({
+    
+    lumenSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("Lumen")],
-        frames: { width: 400, height: 400, count: 7 },
+        frames: { width: 345, height: 360, count: 7 },
         animations: {
             stand: 0,
             walk: [1, 4]
         }
     });
 
-    lumen = new createjs.Sprite(lumenSpriteSheet, "stand");
+    lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
     lumen.x = 25; lumen.y = 75;
     stage.addChild(lumen);
-
+    
     window.onkeyup = handleKeyUp;
     window.onkeydown = handleKeyDown;
 
