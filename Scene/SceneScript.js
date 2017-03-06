@@ -8,7 +8,6 @@ var darkBackgroundContainer;
 var backgroundContainer2;
 var darkBackgroundContainer2;
 var light;
-var testText = new createjs.Text("test", "100px Ariel", "black");
 //Lumen
 const ARROW_KEY_Up = 87;
 const ARROW_KEY_Down = 83;
@@ -26,8 +25,8 @@ var lightSpriteSheet;
 var lightSprite;
 var goingRight = false;
 var grounded = false;
-var loseText = new createjs.Text("GAME OVER", "200px Arial", "black");
-var winText = new createjs.Text("YOU WIN", "200px Arial", "black");
+var loseText = new createjs.Text("GAME OVER", "200px Arial", "pink");
+var winText = new createjs.Text("YOU WIN", "200px Arial", "pink");
 var camera = {
     x: 0,
     y: 0,
@@ -121,7 +120,7 @@ function init() {
     darkBackgroundContainer = new createjs.Container();
     darkBackgroundContainer.addChild(darkBackground, darkBackground2, darkMountains, darkMountains2, darkTrees, darkTrees2);
 
-    stage.addChild(backgroundContainer, darkBackgroundContainer, testText);
+    stage.addChild(backgroundContainer, darkBackgroundContainer);
     darkBackgroundContainer.visible = false;
 
     createjs.Sound.play("LMusic", createjs.Sound.INTERUPT_NONE, 0, 0, -1, .5, 0);
@@ -235,10 +234,7 @@ function moveScene() {
             darkBackgroundContainer.getChildAt((2 * i) + 1).x = 1900;
         }
     }
-    testText.text = "";
-    for (var i = 0; i < 6; i++) {
-        testText.text += backgroundContainer.getChildAt(i).x + " ";
-    }
+  
 
 }
 function updateCamera() {
