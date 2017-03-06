@@ -8,20 +8,23 @@ function move(e)
     for (var i = 0; i < janus.length; i++) {
         if (janus[i].x > stage.canvas.width - 20 || janusD[i].x > stage.canvas.width - 20) {
             rightCollision = true;
-        } else if (janus[i].x < 500 || janusD[i].x < 500) {
+            leftCollision = false;
+        }
+        if (janus[i].x < 25 || janusD[i].x < 25) {
             leftCollision = true;
+            rightCollision = false;
         }
     }
     for (var i = 0; i < janus.length; i++) {
         if (rightCollision == true) {
-            leftCollision = false;
+            
             janus[i].x -= 4;
             janusD[i].x -= 4;
             jBounds[i].x -= 4;
             jDBounds[i].x -= 4;
         }
-        else if (leftCollision == true) {
-            rightCollision = false;
+        if (leftCollision == true) {
+            
             janus[i].x += 4;
             janusD[i].x += 4;
             jBounds[i].x += 4;
@@ -54,7 +57,7 @@ function collision(e)
         janusBounds[i].width = 75;
         janusBounds[i].height = 100;
     }
-    for (var j = 0; j < bounds.length / 2; j++) {
+    /*for (var j = 0; j < bounds.length / 2; j++) {
         for (var i = 0; i < janusBounds.length; i++) {
             if (bounds[2 * j].x <= janusBounds[i].x + janusBounds[i].width && bounds[2 * j].x + bounds[2 * j].width >= janusBounds[i].x) {
                 if (bounds[2 * j].y <= janusBounds[i].y + janusBounds[i].height && bounds[2 * j].y + bounds[2 * j].height >= janusBounds[i].y) {
@@ -77,7 +80,7 @@ function collision(e)
                 }
             }
         }
-    }
+    }*/
     for(var i = 0; i < janusBounds.length; i++)
         {
         if(janusBounds[i].x + janusBounds[i].width > lumen.x && lumen.x + lumenWidth > janusBounds[i].x && !light)

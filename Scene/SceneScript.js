@@ -188,6 +188,9 @@ function init() {
     stage.addChild(lumen);
 
     lightDarkJanus(25, 250, 0, janusSpriteSheet, janusDarkSpriteSheet);
+    lightDarkJanus(100, 600, 1, janusSpriteSheet, janusDarkSpriteSheet);
+    lightDarkJanus(900, 400, 2, janusSpriteSheet, janusDarkSpriteSheet);
+    lightDarkJanus(700, 200, 3, janusSpriteSheet, janusDarkSpriteSheet);
 
     /*janus = new createjs.Sprite(janusSpriteSheet, 'stand')
     janus.x = 25; janus.y = 400;
