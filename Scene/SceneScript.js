@@ -66,8 +66,6 @@ function load() {
     preload.load();
 }
 
-
-
 function init() {
     light = true;
 
@@ -166,15 +164,11 @@ function init() {
     janusD.x = 25; janus.y = 400;
     stage.addChild(janusD);*/
 
-    
-
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
 
     stage.update();
 }
-
-
 
 function createBlocks() {
     var x = 0;
@@ -196,6 +190,7 @@ function CheckRectIntersection(object, character) {
 
     }
 }
+
 function moveScene() {
     for (var i = 0; i < 3; i++) {
         backgroundContainer.getChildAt((2 * i)).x -= (i + 1);
@@ -225,8 +220,6 @@ function updateCamera() {
 
     cameraContainer.x = -camera.x + camera.zoom;
     cameraContainer.x = -camera.y + camera.zoom;
-
-
 }
 function tick() {
     if (meter <= 50) {
@@ -269,15 +262,6 @@ function tick() {
     collision();
     moveScene();
     //Lumen
-    /*if (leftkeydown || rightkeydown) {
-        walk();
-    }
-    if (upkeydown && grounded) {
-        jump();
-    }
-    if (!leftkeydown || !rightkeydown || !upkeydown) {
-        stand();
-    }*/
     lumen.addEventListener("keydown", movement);
     stage.update();
 }
