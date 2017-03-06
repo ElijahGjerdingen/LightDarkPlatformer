@@ -218,8 +218,6 @@ function createBlocks() {
     lightDarkPlatform(0, 550, 10, 11, "SLPlatform", "SDPlatform");
     lightDarkPlatform(50, 400, 12, 13, "SLPlatform", "SDPlatform");
     lightDarkPlatform(300, 250, 14, 15, "LLPlatform", "LDPlatform");
-
-    alert(platformBounds[4].x + " " + platformBounds[4].y + " " + platformBounds[4].width + " " + platformBounds[4].height);
 }
 
 function moveScene() {
@@ -293,7 +291,7 @@ function tick() {
         rainbow.setVolume(0);
         madWorld.play();
     }
-    if (meter == 0) {
+    if (meter <= 0) {
         displayLose();
     }
 
