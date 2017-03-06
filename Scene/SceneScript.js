@@ -40,7 +40,7 @@ var platformBounds = [];
 var lumenBounds;
 var jBounds = [];
 var jDBounds = [];
-const GRAV = 2;
+var grav = 2;
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -205,11 +205,6 @@ function createBlocks() {
 
     alert(platformBounds[4].x + " " + platformBounds[4].y + " " + platformBounds[4].width + " " + platformBounds[4].height);
 }
-function CheckRectIntersection(object, character) {
-    if (object.x == character.x + 75 || object.x + 150 == character.x || object.y == character.y + 75 || object.y + 35 == character.y) {
-
-    }
-}
 
 function moveScene() {
     for (var i = 0; i < 3; i++) {
@@ -272,8 +267,9 @@ function tick() {
             janusD[i].visible = false;
         }
     }
+    CheckRectIntersection();
     if (!grounded) {
-        lumen.y += GRAV;
+        lumen.y += grav;
     }
     move();
     collision();
@@ -366,5 +362,15 @@ function handleKeyUp(e) {
         case 68: rightkeydown = false; break;
         case 87: upkeydown = false; break;
         case 83: downkeydown = false; break;
+    }
+}
+function CheckRectIntersection() {
+    for (var i = 0; i < platformBounds.length; i++) {
+        if (lumen.x + lumen.width >= platformBounds[i] || lumen.x <= platformBounds[i].x + platformBounds[i].width && lumen.y <= platformBounds[i].y + platformBounds[i].height || lumen.y + lumen.height >= platformBounds[i].y) {
+            grounded = true;
+            if (lumen.y + lumen.height >= platformBounds[i].y) {
+                grav = 0;
+            }
+        }
     }
 }
