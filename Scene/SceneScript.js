@@ -26,6 +26,8 @@ var lightSpriteSheet;
 var lightSprite;
 var goingRight = false;
 var grounded = false;
+var loseText = new createjs.Text("GAME OVER", "200px Arial", "black");
+var winText = new createjs.Text("YOU WIN", "200px Arial", "black");
 var camera = {
     x: 0,
     y: 0,
@@ -279,15 +281,41 @@ function tick() {
     if (!light) {
         lightSprite.visible = true;
     }
+    if (meter == 0) {
+        displayLose();
+    }
+
     //Lumen
     if (leftkeydown || rightkeydown) {
         walk();
     }
     if (upkeydown && grounded) {
         jump();
+        displayWin();
     }
     stage.update();
 }
+
+function displayLose() {
+    stage.removeAllChildren();
+    loseText.textBaseLine = "middle";
+    loseText.textAlign = "center";
+    loseText.x = stage.canvas.width / 2;
+    loseText.y = stage.canvas.height / 2 - 135;
+    stage.addChild(loseText);
+    stage.update();
+}
+
+function displayWin() {
+    stage.removeAllChildren();
+    winText.textBaseLine = "middle";
+    winText.textAlign = "center";
+    winText.x = stage.canvas.width / 2;
+    winText.y = stage.canvas.height / 2 - 135;
+    stage.addChild(winText);
+    stage.update();
+}
+
 function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStringD) {
     platform.push(new createjs.Bitmap(preload.getResult(imageStringL)));
     platform[lightI].x = platX;
