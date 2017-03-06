@@ -51,16 +51,18 @@ function collision(e)
         janusBounds[i] = new createjs.Rectangle(0, 0, 1, 1);
         janusBounds[i].x = jBounds[i].x;
         janusBounds[i].y = jBounds[i].y;
-        janusBounds[i].width = jBounds[i].width;
-        janusBounds[i].height = jBounds[i].height;
+        janusBounds[i].width = 75;
+        janusBounds[i].height = 100;
     }
     for (var j = 0; j < bounds.length / 2; j++) {
         for (var i = 0; i < janusBounds.length; i++) {
-            if (bounds[2 * j].x <= janusBounds[i].x + janusBounds[i].width && bounds[2 * j].x + bounds[2 * j].width >= janusBounds[i].x && bounds[2 * j].y <= janusBounds[i].y + janusBounds[i].height && bounds[2 * j].y + bounds[2 * j].height >= janusBounds[i].y) {
-                leftCollision = true;
-                rightCollision = false;
-                for (var k = 0; k < janus.length; k++) {
-                    janus[k].x -= 10;
+            if (bounds[2 * j].x <= janusBounds[i].x + janusBounds[i].width && bounds[2 * j].x + bounds[2 * j].width >= janusBounds[i].x) {
+                if (bounds[2 * j].y <= janusBounds[i].y + janusBounds[i].height && bounds[2 * j].y + bounds[2 * j].height >= janusBounds[i].y) {
+                    leftCollision = true;
+                    rightCollision = false;
+                    for (var k = 0; k < janus.length; k++) {
+                        janus[k].x -= 10;
+                    }
                 }
             }
             if (bounds[i].x + bounds[i].width == janusBounds[i].x) {
@@ -76,4 +78,15 @@ function collision(e)
             }
         }
     }
+    for(var i = 0; i < janusBounds.length; i++)
+        {
+        if(janusBounds[i].x + janusBounds[i].width > lumen.x && lumen.x + lumenWidth > janusBounds[i].x && !light)
+            {
+                if(janusBounds[i].y + janusBounds[i].height > lumen.y && lumen.y + lumenHeight > janusBounds[i].y)
+                {
+                    meter -= 10;
+                    lumen.x = janusBounds[i].x - (lumenWidth + 25);
+                }
+            }
+        }
 }
