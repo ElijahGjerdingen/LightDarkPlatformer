@@ -27,6 +27,7 @@ var goingRight = false;
 var grounded = false;
 var loseText = new createjs.Text("GAME OVER", "200px Arial", "pink");
 var winText = new createjs.Text("YOU WIN", "200px Arial", "pink");
+var instructions = new createjs.Text("Use WAD key controls to play!", "35px Arial", "black");
 var camera = {
     x: 0,
     y: 0,
@@ -197,8 +198,7 @@ function init() {
     janusD.x = 25; janus.y = 400;
     stage.addChild(janusD);*/
 
-    //audio
-
+    displayInstructions();
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
@@ -218,6 +218,11 @@ function createBlocks() {
     lightDarkPlatform(0, 550, 10, 11, "SLPlatform", "SDPlatform");
     lightDarkPlatform(50, 400, 12, 13, "SLPlatform", "SDPlatform");
     lightDarkPlatform(300, 250, 14, 15, "LLPlatform", "LDPlatform");
+    lightDarkPlatform(1700, 250, 16, 17, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(1200, 550, 18, 19, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(1100, 250, 20, 21, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(1600, 450, 22, 23, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(900, 410, 24, 25, "SLPlatform", "SDPlatform");
 
     alert(platformBounds[4].x + " " + platformBounds[4].y + " " + platformBounds[4].width + " " + platformBounds[4].height);
 }
@@ -262,7 +267,7 @@ function tick() {
             janus[i].visible = false;
             janusD[i].visible = true;
         }
-
+        //instructions.visible = false;
     }
     else if (meter > 50) {
         meter -= 1 / 15;
@@ -297,7 +302,6 @@ function tick() {
         displayLose();
     }
 
-
     //Lumen
     if (leftkeydown || rightkeydown) {
         walk();
@@ -306,6 +310,17 @@ function tick() {
         jump();
     }
     stage.update();
+}
+
+function displayInstructions() {
+    instructions.x = 25;
+    instructions.y = 25;
+    stage.addChild(instructions);
+    stage.update;
+}
+
+function hidEInstructions() {
+    stage.removeChild(instructions);
 }
 
 function displayLose() {
@@ -402,4 +417,5 @@ function CheckRectIntersection() {
     {
         rightkeydown = false;
     }
+    
 }
