@@ -33,6 +33,8 @@ var camera = {
     y: 0,
     zoom: 1
 }
+var madWorld;
+var rainbow;
 var size = 45 * camera.zoom;
 var Container = createjs.Container;
 var cameraContainer = new Container();
@@ -66,13 +68,22 @@ function load() {
         { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" },
         { id: "LJanus", src: "/Janus/Frank.png" },
         { id: "DJanus", src: "/Janus/DarkFrank.png" },
-        { id: "Light", src: "/Scene/light.png" }
+        { id: "Light", src: "/Scene/light.png" },
+        { id: "MadWorld", src: "/Scene/MadWorld.mp3" },
+        { id: "Rainbow", src: "/Scene/Rainbow.mp3" }
     ]);
     preload.load();
 }
 
 function init() {
     light = true;
+
+    //audio
+    rainbow = createjs.Sound.createInstance("Rainbow");
+    madWorld = createjs.Sound.createInstance("MadWorld");
+    rainbow.setVolume(.5);
+    madWorld.setVolume(.5);
+    rainbow.play();
 
     stage = new createjs.Stage("canvas");
 
@@ -184,6 +195,9 @@ function init() {
     janusD.x = 25; janus.y = 400;
     stage.addChild(janusD);*/
 
+    //audio
+
+
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
 
@@ -280,10 +294,13 @@ function tick() {
     moveScene();
     if (!light) {
         lightSprite.visible = true;
+        rainbow.setVolume(0);
+        madWorld.play();
     }
     if (meter == 0) {
         displayLose();
     }
+
 
     //Lumen
     if (leftkeydown || rightkeydown) {
