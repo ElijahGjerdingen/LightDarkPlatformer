@@ -1,17 +1,19 @@
 // JavaScript source code
-var janus;
+var janusBounds = [];
 var bounds = [];
-var rightCollision = true;
-var leftCollision = false;
-function move()
+var rightCollision = false;
+var leftCollision = true;
+function move(e)
 {
     if (rightCollision == true)
     {
-        janus.x -= 10;
+        janus[0].x -= 4;
+        janusD[0].x -= 4;
     }
     else if (leftCollision == true)
     {
-        janus.x += 10;
+        janus[0].x += 4;
+        janusD[0].x += 4;
     }
 }
 function collision(e)
@@ -31,14 +33,37 @@ function collision(e)
         bounds[(2 * i) + 1].width = platformBounds[(2 * i) + 1].width;
         bounds[(2 * i) + 1].height = platformBounds[(2 * i) + 1].height;
     }
-    if(bounds.x = e.x + e.width)
+    for (var i = 0; i < jBounds.length; i++)
     {
-        leftCollision = true;
-        rightCollision = false;
-        if (inDarkWorld == true)
+        janusBounds[i] = new createjs.Rectangle(0, 0, 1, 1);
+        janusBounds[i].x = jBounds[i].x;
+        janusBounds[i].y = jBounds[i].y;
+        janusBounds[i].width = jBounds[i].width;
+        janusBounds[i].height = jBounds[i].height;
+    }
+    for (var i = 0; i < janusBounds.length; i++)
+    {
+        if (bounds[i].x <= janusBounds[i].x + janusBounds[i].width && bounds[i].x + bounds[i].width >= janusBounds[i].x && bounds[i].y <= janusBounds[i].y + janusBounds[i].height && bounds[i].y + bounds[i].height >= janusBound[i].y)
         {
-            meter -= 10;
-            lumen.x -= 10;
+            leftCollision = true;
+            rightCollision = false;
+                for(var j = 0; j < janus.length; j++)
+                {
+                    janus.x += 10;
+                }
+        }
+        if(bounds[i].x + bounds[i].width == janusBounds[i].x)
+        {
+            leftCollision = false;
+            rightCollision = true;
+            if (light != true) {
+                meter -= 10;
+                for(var j = 0; j < janus.length; j++)
+                {
+                    janus[i].x += 10;
+                }
+
+            }
         }
     }
 }

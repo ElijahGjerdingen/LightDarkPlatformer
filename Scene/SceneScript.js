@@ -34,7 +34,9 @@ var Container = createjs.Container;
 var cameraContainer = new Container();
 var platformBounds = [];
 var lumenBounds;
-var janusBounds;
+var jBounds = [];
+var jDBounds = [];
+const GRAV = 2;
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -154,7 +156,7 @@ function init() {
     stage.addChild(lumen);
     //lumen.addEventListener("keydown", run);
 
-    lightDarkJanus(25, 400, 0, janusSpriteSheet, janusDarkSpriteSheet);
+    lightDarkJanus(25, 250, 0, janusSpriteSheet, janusDarkSpriteSheet);
 
     /*janus = new createjs.Sprite(janusSpriteSheet, 'stand')
     janus.x = 25; janus.y = 400;
@@ -184,6 +186,7 @@ function createBlocks() {
     lightDarkPlatform(550, 450, 8, 9, "SLPlatform", "SDPlatform");
     lightDarkPlatform(0, 550, 10, 11, "SLPlatform", "SDPlatform");
     lightDarkPlatform(50, 400, 12, 13, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(300, 250, 14, 15, "LLPlatform", "LDPlatform");
 
     alert(platformBounds[4].x + " " + platformBounds[4].y + " " + platformBounds[4].width + " " + platformBounds[4].height);
 }
@@ -226,6 +229,7 @@ function updateCamera() {
 }
 function tick() {
     if (meter <= 50) {
+        light = false;
         backgroundContainer.visible = false;
         darkBackgroundContainer.visible = true;
         for (var i = 0; i < (platform.length / 2) ; i++) {
@@ -243,6 +247,7 @@ function tick() {
         meter -= 1 / 15;
     }
     else if (meter == 100) {
+        light = true;
         backgroundContainer.visible = true;
         darkBackgroundContainer.visible = false;
         for (var i = 0; i < (platform.length / 2) ; i++) {
@@ -255,6 +260,12 @@ function tick() {
             janusD[i].visible = false;
         }
     }
+    if (!grounded)
+    {
+        lumen.y += GRAV;
+    }
+    move();
+    collision();
     moveScene();
     //Lumen
     if (leftkeydown || rightkeydown) {
@@ -286,14 +297,21 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
 }
 function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet)
 {
-    janus[jI] = new createjs.Sprite(lightSpriteSheet, 'stand')
+    janus.push(new createjs.Sprite(lightSpriteSheet, 'stand'));
     janus[jI].x = jX; janus[jI].y = jY;
     stage.addChild(janus[jI]);
 
-    janusD[jI] = new createjs.Sprite(darkSpriteSheet, 'stand')
+    janusD.push(new createjs.Sprite(darkSpriteSheet, 'stand'));
     janusD[jI].x = jX; janusD[jI].y = jY;
     janusD[jI].visible = false;
     stage.addChild(janusD[jI]);
+
+    jBounds[jI] = janus[jI].getBounds();
+    jDBounds[jI] = janusD[jI].getBounds();
+    jBounds[jI].x = jX;
+    jBounds[jI].y = jY;
+    jDBounds[jI].x = jX;
+    jDBounds[jI].y = jY;
 }
 function handleKeyDown(e) {
     switch (e.keyCode) {
