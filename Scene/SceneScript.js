@@ -177,7 +177,6 @@ function init() {
 
 
 function createBlocks() {
-    //var block1 = new createjs.Shape(new createjs.Graphics().beginFill("green").drawRect(100, 100, 50, 200));
     var x = 0;
     var y = 800;
 
