@@ -1,5 +1,4 @@
 //Lumen code
-
 function walk(e) {
     if (leftkeydown) {
         goingRight = false;
@@ -12,10 +11,10 @@ function walk(e) {
 }
 
 function jump(e) {
-    if (grounded == true) {
-        lumen.y -= 150;
-        grounded = false;
-    }
+    createjs.Tween.get(lumen).to({y:lumen.y-150}, 1000);
+    grounded = false;
 }
 
+function movement() {
 
+}

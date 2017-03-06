@@ -6,13 +6,22 @@ var leftCollision = true;
 function move(e)
 {
     for (var i = 0; i < janus.length; i++) {
+        if (janus[i].x > stage.canvas.width - 20 || janusD[i].x > stage.canvas.width - 20) {
+            rightCollision = true;
+        } else if (janus[i].x < 500 || janusD[i].x < 500) {
+            leftCollision = true;
+        }
+    }
+    for (var i = 0; i < janus.length; i++) {
         if (rightCollision == true) {
+            leftCollision = false;
             janus[i].x -= 4;
             janusD[i].x -= 4;
             jBounds[i].x -= 4;
             jDBounds[i].x -= 4;
         }
         else if (leftCollision == true) {
+            rightCollision = false;
             janus[i].x += 4;
             janusD[i].x += 4;
             jBounds[i].x += 4;

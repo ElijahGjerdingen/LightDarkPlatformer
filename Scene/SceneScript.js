@@ -8,7 +8,6 @@ var darkBackgroundContainer;
 var backgroundContainer2;
 var darkBackgroundContainer2;
 var light;
-var testText = new createjs.Text("test", "100px Ariel", "black");
 //Lumen
 const ARROW_KEY_Up = 87;
 const ARROW_KEY_Down = 83;
@@ -22,13 +21,19 @@ var janus = [];
 var janusD = [];
 var image;
 var lumenSpriteSheet;
+var lightSpriteSheet;
+var lightSprite;
 var goingRight = false;
 var grounded = false;
+var loseText = new createjs.Text("GAME OVER", "200px Arial", "pink");
+var winText = new createjs.Text("YOU WIN", "200px Arial", "pink");
 var camera = {
     x: 0,
     y: 0,
     zoom: 1
 }
+var madWorld;
+var rainbow;
 var size = 45 * camera.zoom;
 var Container = createjs.Container;
 var cameraContainer = new Container();
@@ -36,7 +41,9 @@ var platformBounds = [];
 var lumenBounds;
 var jBounds = [];
 var jDBounds = [];
-const GRAV = 2;
+var grav = 2;
+var lumenHeight;
+var lumenWidth;
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -61,15 +68,23 @@ function load() {
         { id: "DarkMountains", src: "/Scene/BackhillDark.png" },
         { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" },
         { id: "LJanus", src: "/Janus/Frank.png" },
-        { id: "DJanus", src: "/Janus/DarkFrank.png" }
+        { id: "DJanus", src: "/Janus/DarkFrank.png" },
+        { id: "Light", src: "/Scene/light.png" },
+        { id: "MadWorld", src: "/Scene/MadWorld.mp3" },
+        { id: "Rainbow", src: "/Scene/Rainbow.mp3" }
     ]);
     preload.load();
 }
 
-
-
 function init() {
     light = true;
+
+    //audio
+    rainbow = createjs.Sound.createInstance("Rainbow");
+    madWorld = createjs.Sound.createInstance("MadWorld");
+    rainbow.setVolume(.5);
+    madWorld.setVolume(.5);
+    rainbow.play();
 
     stage = new createjs.Stage("canvas");
 
@@ -107,7 +122,7 @@ function init() {
     darkBackgroundContainer = new createjs.Container();
     darkBackgroundContainer.addChild(darkBackground, darkBackground2, darkMountains, darkMountains2, darkTrees, darkTrees2);
 
-    stage.addChild(backgroundContainer, darkBackgroundContainer, testText);
+    stage.addChild(backgroundContainer, darkBackgroundContainer);
     darkBackgroundContainer.visible = false;
 
     createjs.Sound.play("LMusic", createjs.Sound.INTERUPT_NONE, 0, 0, -1, .5, 0);
@@ -127,8 +142,9 @@ function init() {
             fall: 6,
             _walk: [8, 11],
             _jump: 12,
-            _fall: 13
-        }
+            _fall: 13,
+        },
+        // framerate: 2
     });
 
     janusSpriteSheet = new createjs.SpriteSheet({
@@ -149,12 +165,27 @@ function init() {
         }
     });
 
+    lightSpriteSheet = new createjs.SpriteSheet({
+        images: [preload.getResult("Light")],
+        frames: { width: 400, height: 400, count: 1 },
+        animations: {
+            theOnlyLightOutThere: 0
+        }
+    });
+
+    lightSprite = new createjs.Sprite(lightSpriteSheet, 'theOnlyLightOutThere');
+    lightSprite.x = 1775; lightSprite.y = 40;
+    lightSprite.scaleX = .25; lightSprite.scaleY = .25;
+    stage.addChild(lightSprite);
+    lightSprite.visible = false;
+
+
     createjs.SpriteSheetUtils.addFlippedFrames(lumenSpriteSheet, true, false, false);
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
-    lumen.x = 25; lumen.y = 735;
+    lumen.x = 2; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
+    lumenHeight = 75; lumenWidth = 75;
     stage.addChild(lumen);
-    //lumen.addEventListener("keydown", run);
 
     lightDarkJanus(25, 250, 0, janusSpriteSheet, janusDarkSpriteSheet);
 
@@ -166,13 +197,14 @@ function init() {
     janusD.x = 25; janus.y = 400;
     stage.addChild(janusD);*/
 
+    //audio
+
+
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
 
     stage.update();
 }
-
-
 
 function createBlocks() {
     var x = 0;
@@ -189,11 +221,7 @@ function createBlocks() {
 
     alert(platformBounds[4].x + " " + platformBounds[4].y + " " + platformBounds[4].width + " " + platformBounds[4].height);
 }
-function CheckRectIntersection(object, character) {
-    if (object.x == character.x + 75 || object.x + 150 == character.x || object.y == character.y + 75 || object.y + 35 == character.y) {
 
-    }
-}
 function moveScene() {
     for (var i = 0; i < 3; i++) {
         backgroundContainer.getChildAt((2 * i)).x -= (i + 1);
@@ -209,10 +237,7 @@ function moveScene() {
             darkBackgroundContainer.getChildAt((2 * i) + 1).x = 1900;
         }
     }
-    testText.text = "";
-    for (var i = 0; i < 6; i++) {
-        testText.text += backgroundContainer.getChildAt(i).x + " ";
-    }
+  
 
 }
 function updateCamera() {
@@ -223,8 +248,6 @@ function updateCamera() {
 
     cameraContainer.x = -camera.x + camera.zoom;
     cameraContainer.x = -camera.y + camera.zoom;
-
-
 }
 function tick() {
     if (meter <= 50) {
@@ -235,8 +258,7 @@ function tick() {
             platform[2 * i].visible = false;
             platform[(2 * i) + 1].visible = true;
         }
-        for (var i = 0; i < janus.length; i++)
-        {
+        for (var i = 0; i < janus.length; i++) {
             janus[i].visible = false;
             janusD[i].visible = true;
         }
@@ -253,19 +275,29 @@ function tick() {
             platform[2 * i].visible = true;
             platform[(2 * i) + 1].visible = false;
         }
-        for(var i = 0; i < janus.length; i++)
-        {
+        for (var i = 0; i < janus.length; i++) {
             janus[i].visible = true;
             janusD[i].visible = false;
         }
     }
-    if (!grounded)
-    {
-        lumen.y += GRAV;
+    
+    if (!grounded) {
+        lumen.y += grav;
     }
+    CheckRectIntersection();
     move();
     collision();
     moveScene();
+    if (!light) {
+        lightSprite.visible = true;
+        rainbow.setVolume(0);
+        madWorld.play();
+    }
+    if (meter == 0) {
+        displayLose();
+    }
+
+
     //Lumen
     if (leftkeydown || rightkeydown) {
         walk();
@@ -275,6 +307,27 @@ function tick() {
     }
     stage.update();
 }
+
+function displayLose() {
+    stage.removeAllChildren();
+    loseText.textBaseLine = "middle";
+    loseText.textAlign = "center";
+    loseText.x = stage.canvas.width / 2;
+    loseText.y = stage.canvas.height / 2 - 135;
+    stage.addChild(loseText);
+    stage.update();
+}
+
+function displayWin() {
+    stage.removeAllChildren();
+    winText.textBaseLine = "middle";
+    winText.textAlign = "center";
+    winText.x = stage.canvas.width / 2;
+    winText.y = stage.canvas.height / 2 - 135;
+    stage.addChild(winText);
+    stage.update();
+}
+
 function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStringD) {
     platform.push(new createjs.Bitmap(preload.getResult(imageStringL)));
     platform[lightI].x = platX;
@@ -294,8 +347,7 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
     platformBounds[darkI].x = platX;
     platformBounds[darkI].x = platY;
 }
-function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet)
-{
+function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet) {
     janus.push(new createjs.Sprite(lightSpriteSheet, 'stand'));
     janus[jI].x = jX; janus[jI].y = jY;
     stage.addChild(janus[jI]);
@@ -327,5 +379,27 @@ function handleKeyUp(e) {
         case 68: rightkeydown = false; break;
         case 87: upkeydown = false; break;
         case 83: downkeydown = false; break;
+    }
+}
+function CheckRectIntersection() {
+    grounded = false;
+    for (var i = 0; i < platformBounds.length; i++)
+    {
+        if (lumen.x + lumenWidth >= (platformBounds[i].x) && lumen.x <= (platformBounds[i].x + platformBounds[i].width))
+        {
+            if (lumen.y + lumenHeight <= (platformBounds[i].y + platformBounds[i].height) && lumen.y + lumenHeight >= (platformBounds[i].y))
+            {
+                grounded = true;
+                lumen.y = platformBounds[i].y - lumenHeight;
+            }
+        }
+    }
+    if(lumen.x < 25)
+    {
+        leftkeydown = false;
+    }
+    if(lumen.x > stage.canvas.width)
+    {
+        rightkeydown = false;
     }
 }
