@@ -291,7 +291,6 @@ function tick() {
     }
     if (upkeydown && grounded) {
         jump();
-        displayWin();
     }
     stage.update();
 }
