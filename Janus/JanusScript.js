@@ -5,15 +5,19 @@ var rightCollision = false;
 var leftCollision = true;
 function move(e)
 {
-    if (rightCollision == true)
-    {
-        janus[0].x -= 4;
-        janusD[0].x -= 4;
-    }
-    else if (leftCollision == true)
-    {
-        janus[0].x += 4;
-        janusD[0].x += 4;
+    for (var i = 0; i < janus.length; i++) {
+        if (rightCollision == true) {
+            janus[i].x -= 4;
+            janusD[i].x -= 4;
+            jBounds[i].x -= 4;
+            jDBounds[i].x -= 4;
+        }
+        else if (leftCollision == true) {
+            janus[i].x += 4;
+            janusD[i].x += 4;
+            jBounds[i].x += 4;
+            jDBounds[i].x += 4;
+        }
     }
 }
 function collision(e)
@@ -41,28 +45,25 @@ function collision(e)
         janusBounds[i].width = jBounds[i].width;
         janusBounds[i].height = jBounds[i].height;
     }
-    for (var i = 0; i < janusBounds.length; i++)
-    {
-        if (bounds[i].x <= janusBounds[i].x + janusBounds[i].width && bounds[i].x + bounds[i].width >= janusBounds[i].x && bounds[i].y <= janusBounds[i].y + janusBounds[i].height && bounds[i].y + bounds[i].height >= janusBound[i].y)
-        {
-            leftCollision = true;
-            rightCollision = false;
-                for(var j = 0; j < janus.length; j++)
-                {
-                    janus.x += 10;
+    for (var j = 0; j < bounds.length / 2; j++) {
+        for (var i = 0; i < janusBounds.length; i++) {
+            if (bounds[2 * j].x <= janusBounds[i].x + janusBounds[i].width && bounds[2 * j].x + bounds[2 * j].width >= janusBounds[i].x && bounds[2 * j].y <= janusBounds[i].y + janusBounds[i].height && bounds[2 * j].y + bounds[2 * j].height >= janusBounds[i].y) {
+                leftCollision = true;
+                rightCollision = false;
+                for (var k = 0; k < janus.length; k++) {
+                    janus[k].x -= 10;
                 }
-        }
-        if(bounds[i].x + bounds[i].width == janusBounds[i].x)
-        {
-            leftCollision = false;
-            rightCollision = true;
-            if (light != true) {
-                meter -= 10;
-                for(var j = 0; j < janus.length; j++)
-                {
-                    janus[i].x += 10;
-                }
+            }
+            if (bounds[i].x + bounds[i].width == janusBounds[i].x) {
+                leftCollision = false;
+                rightCollision = true;
+                if (light != true) {
+                    meter -= 10;
+                    for (var j = 0; j < janus.length; j++) {
+                        janus[i].x += 10;
+                    }
 
+                }
             }
         }
     }
