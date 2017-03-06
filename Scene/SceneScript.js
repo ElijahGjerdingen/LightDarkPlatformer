@@ -262,7 +262,12 @@ function tick() {
     collision();
     moveScene();
     //Lumen
-    lumen.addEventListener("keydown", movement);
+    if (leftkeydown || rightkeydown) {
+        walk();
+    }
+    if (upkeydown && grounded) {
+        jump();
+    }
     stage.update();
 }
 function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStringD) {
