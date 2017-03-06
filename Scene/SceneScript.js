@@ -22,6 +22,8 @@ var janus = [];
 var janusD = [];
 var image;
 var lumenSpriteSheet;
+var lightSpriteSheet;
+var lightSprite;
 var goingRight = false;
 var grounded = false;
 var camera = {
@@ -61,7 +63,8 @@ function load() {
         { id: "DarkMountains", src: "/Scene/BackhillDark.png" },
         { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" },
         { id: "LJanus", src: "/Janus/Frank.png" },
-        { id: "DJanus", src: "/Janus/DarkFrank.png" }
+        { id: "DJanus", src: "/Janus/DarkFrank.png" },
+        { id: "Light", src: "/Scene/light.png" }
     ]);
     preload.load();
 }
@@ -127,7 +130,7 @@ function init() {
             _jump: 12,
             _fall: 13,
         },
-       // framerate: 2
+        // framerate: 2
     });
 
     janusSpriteSheet = new createjs.SpriteSheet({
@@ -147,6 +150,21 @@ function init() {
             patrol: [3, 5]
         }
     });
+
+    lightSpriteSheet = new createjs.SpriteSheet({
+        images: [preload.getResult("Light")],
+        frames: { width: 400, height: 400, count: 1 },
+        animations: {
+            theOnlyLightOutThere: 0
+        }
+    });
+
+    lightSprite = new createjs.Sprite(lightSpriteSheet, 'theOnlyLightOutThere');
+    lightSprite.x = 1775; lightSprite.y = 40;
+    lightSprite.scaleX = .25; lightSprite.scaleY = .25;
+    stage.addChild(lightSprite);
+    lightSprite.visible = false;
+
 
     createjs.SpriteSheetUtils.addFlippedFrames(lumenSpriteSheet, true, false, false);
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
@@ -230,8 +248,7 @@ function tick() {
             platform[2 * i].visible = false;
             platform[(2 * i) + 1].visible = true;
         }
-        for (var i = 0; i < janus.length; i++)
-        {
+        for (var i = 0; i < janus.length; i++) {
             janus[i].visible = false;
             janusD[i].visible = true;
         }
@@ -248,19 +265,20 @@ function tick() {
             platform[2 * i].visible = true;
             platform[(2 * i) + 1].visible = false;
         }
-        for(var i = 0; i < janus.length; i++)
-        {
+        for (var i = 0; i < janus.length; i++) {
             janus[i].visible = true;
             janusD[i].visible = false;
         }
     }
-    if (!grounded)
-    {
+    if (!grounded) {
         lumen.y += GRAV;
     }
     move();
     collision();
     moveScene();
+    if (!light) {
+        lightSprite.visible = true;
+    }
     //Lumen
     if (leftkeydown || rightkeydown) {
         walk();
@@ -289,8 +307,7 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
     platformBounds[darkI].x = platX;
     platformBounds[darkI].x = platY;
 }
-function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet)
-{
+function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet) {
     janus.push(new createjs.Sprite(lightSpriteSheet, 'stand'));
     janus[jI].x = jX; janus[jI].y = jY;
     stage.addChild(janus[jI]);
