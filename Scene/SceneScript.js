@@ -42,6 +42,8 @@ var lumenBounds;
 var jBounds = [];
 var jDBounds = [];
 var grav = 2;
+var lumenHeight;
+var lumenWidth;
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -182,6 +184,7 @@ function init() {
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
     lumen.x = 2; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
+    lumenHeight = 75; lumenWidth = 75;
     stage.addChild(lumen);
 
     lightDarkJanus(25, 250, 0, janusSpriteSheet, janusDarkSpriteSheet);
@@ -277,10 +280,11 @@ function tick() {
             janusD[i].visible = false;
         }
     }
-    CheckRectIntersection();
+    
     if (!grounded) {
         lumen.y += grav;
     }
+    CheckRectIntersection();
     move();
     collision();
     moveScene();
@@ -378,16 +382,24 @@ function handleKeyUp(e) {
     }
 }
 function CheckRectIntersection() {
-    for (var i = 0; i < platformBounds.length; i++) {
-        if (lumen.x + lumen.width >= (platformBounds[i].x  + 10) || lumen.x <= (platformBounds[i].x + platformBounds[i].width + 10) && lumen.y <= (platformBounds[i].y + platformBounds[i].height + 10) || lumen.y + lumen.height >= (platformBounds[i].y + 10)) {
-            grounded = true;
-            if (lumen.y + lumen.height >= platformBounds[i].y) {
-                grav = 0;
+    grounded = false;
+    for (var i = 0; i < platformBounds.length; i++)
+    {
+        if (lumen.x + lumenWidth >= (platformBounds[i].x) && lumen.x <= (platformBounds[i].x + platformBounds[i].width))
+        {
+            if (lumen.y + lumenHeight <= (platformBounds[i].y + platformBounds[i].height) && lumen.y + lumenHeight >= (platformBounds[i].y))
+            {
+                grounded = true;
+                lumen.y = platformBounds[i].y - lumenHeight;
             }
         }
-        else
-        {
-            grounded = false;
-        }
+    }
+    if(lumen.x < 25)
+    {
+        leftkeydown = false;
+    }
+    if(lumen.x > stage.canvas.width)
+    {
+        rightkeydown = false;
     }
 }
