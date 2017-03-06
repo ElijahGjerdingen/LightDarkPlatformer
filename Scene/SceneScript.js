@@ -125,8 +125,9 @@ function init() {
             fall: 6,
             _walk: [8, 11],
             _jump: 12,
-            _fall: 13
-        }
+            _fall: 13,
+        },
+       // framerate: 2
     });
 
     janusSpriteSheet = new createjs.SpriteSheet({
@@ -152,7 +153,6 @@ function init() {
     lumen.x = 25; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
     stage.addChild(lumen);
-    //lumen.addEventListener("keydown", run);
 
     janus = new createjs.Sprite(janusSpriteSheet, 'stand')
     janus.x = 25; janus.y = 400;
@@ -161,6 +161,8 @@ function init() {
     janusD = new createjs.Sprite(janusDarkSpriteSheet, 'stand')
     janusD.x = 25; janus.y = 200;
     stage.addChild(janusD);
+
+    
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
@@ -244,12 +246,16 @@ function tick() {
     }
     moveScene();
     //Lumen
-    if (leftkeydown || rightkeydown) {
+    /*if (leftkeydown || rightkeydown) {
         walk();
     }
     if (upkeydown && grounded) {
         jump();
     }
+    if (!leftkeydown || !rightkeydown || !upkeydown) {
+        stand();
+    }*/
+    lumen.addEventListener("keydown", movement);
     stage.update();
 }
 function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStringD) {
