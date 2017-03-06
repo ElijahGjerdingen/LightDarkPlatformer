@@ -180,7 +180,7 @@ function init() {
 
     createjs.SpriteSheetUtils.addFlippedFrames(lumenSpriteSheet, true, false, false);
     lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
-    lumen.x = 25; lumen.y = 735;
+    lumen.x = 2; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
     stage.addChild(lumen);
 
@@ -379,11 +379,15 @@ function handleKeyUp(e) {
 }
 function CheckRectIntersection() {
     for (var i = 0; i < platformBounds.length; i++) {
-        if (lumen.x + lumen.width >= platformBounds[i] || lumen.x <= platformBounds[i].x + platformBounds[i].width && lumen.y <= platformBounds[i].y + platformBounds[i].height || lumen.y + lumen.height >= platformBounds[i].y) {
+        if (lumen.x + lumen.width >= (platformBounds[i].x  + 10) || lumen.x <= (platformBounds[i].x + platformBounds[i].width + 10) && lumen.y <= (platformBounds[i].y + platformBounds[i].height + 10) || lumen.y + lumen.height >= (platformBounds[i].y + 10)) {
             grounded = true;
             if (lumen.y + lumen.height >= platformBounds[i].y) {
                 grav = 0;
             }
+        }
+        else
+        {
+            grounded = false;
         }
     }
 }
