@@ -18,8 +18,8 @@ var leftkeydown = false;
 var rightkeydown = false;
 var upkeydown = false;
 var lumen;
-var janus;
-var janusD;
+var janus = [];
+var janusD = [];
 var image;
 var lumenSpriteSheet;
 var goingRight = false;
@@ -34,7 +34,9 @@ var Container = createjs.Container;
 var cameraContainer = new Container();
 var platformBounds = [];
 var lumenBounds;
-var janusBounds;
+var jBounds = [];
+var jDBounds = [];
+const GRAV = 2;
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -154,13 +156,15 @@ function init() {
     lumen.scaleX = .21739; lumen.scaleY = .20833;
     stage.addChild(lumen);
 
-    janus = new createjs.Sprite(janusSpriteSheet, 'stand')
+    lightDarkJanus(25, 250, 0, janusSpriteSheet, janusDarkSpriteSheet);
+
+    /*janus = new createjs.Sprite(janusSpriteSheet, 'stand')
     janus.x = 25; janus.y = 400;
     stage.addChild(janus);
 
     janusD = new createjs.Sprite(janusDarkSpriteSheet, 'stand')
-    janusD.x = 25; janus.y = 200;
-    stage.addChild(janusD);
+    janusD.x = 25; janus.y = 400;
+    stage.addChild(janusD);*/
 
     
 
@@ -184,6 +188,7 @@ function createBlocks() {
     lightDarkPlatform(550, 450, 8, 9, "SLPlatform", "SDPlatform");
     lightDarkPlatform(0, 550, 10, 11, "SLPlatform", "SDPlatform");
     lightDarkPlatform(50, 400, 12, 13, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(300, 250, 14, 15, "LLPlatform", "LDPlatform");
 
     alert(platformBounds[4].x + " " + platformBounds[4].y + " " + platformBounds[4].width + " " + platformBounds[4].height);
 }
@@ -226,24 +231,43 @@ function updateCamera() {
 }
 function tick() {
     if (meter <= 50) {
+        light = false;
         backgroundContainer.visible = false;
         darkBackgroundContainer.visible = true;
         for (var i = 0; i < (platform.length / 2) ; i++) {
             platform[2 * i].visible = false;
             platform[(2 * i) + 1].visible = true;
         }
+        for (var i = 0; i < janus.length; i++)
+        {
+            janus[i].visible = false;
+            janusD[i].visible = true;
+        }
+
     }
     else if (meter > 50) {
         meter -= 1 / 15;
     }
     else if (meter == 100) {
+        light = true;
         backgroundContainer.visible = true;
         darkBackgroundContainer.visible = false;
         for (var i = 0; i < (platform.length / 2) ; i++) {
             platform[2 * i].visible = true;
             platform[(2 * i) + 1].visible = false;
         }
+        for(var i = 0; i < janus.length; i++)
+        {
+            janus[i].visible = true;
+            janusD[i].visible = false;
+        }
     }
+    if (!grounded)
+    {
+        lumen.y += GRAV;
+    }
+    move();
+    collision();
     moveScene();
     //Lumen
     /*if (leftkeydown || rightkeydown) {
@@ -277,7 +301,24 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
     platformBounds[darkI].x = platX;
     platformBounds[darkI].x = platY;
 }
+function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet)
+{
+    janus.push(new createjs.Sprite(lightSpriteSheet, 'stand'));
+    janus[jI].x = jX; janus[jI].y = jY;
+    stage.addChild(janus[jI]);
 
+    janusD.push(new createjs.Sprite(darkSpriteSheet, 'stand'));
+    janusD[jI].x = jX; janusD[jI].y = jY;
+    janusD[jI].visible = false;
+    stage.addChild(janusD[jI]);
+
+    jBounds[jI] = janus[jI].getBounds();
+    jDBounds[jI] = janusD[jI].getBounds();
+    jBounds[jI].x = jX;
+    jBounds[jI].y = jY;
+    jDBounds[jI].x = jX;
+    jDBounds[jI].y = jY;
+}
 function handleKeyDown(e) {
     switch (e.keyCode) {
         case 65: leftkeydown = true; break;

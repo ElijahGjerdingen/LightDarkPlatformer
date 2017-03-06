@@ -1,29 +1,69 @@
 // JavaScript source code
-var janus;
-var bounds;
-var rightCollision = true;
-var leftCollision = false;
-function move()
+var janusBounds = [];
+var bounds = [];
+var rightCollision = false;
+var leftCollision = true;
+function move(e)
 {
     if (rightCollision == true)
     {
-        janus.x -= 10;
+        janus[0].x -= 4;
+        janusD[0].x -= 4;
     }
     else if (leftCollision == true)
     {
-        janus.x += 10;
+        janus[0].x += 4;
+        janusD[0].x += 4;
     }
 }
 function collision(e)
 {
-    if(bounds.x = e.x + e.width)
+    
+    for (var i = 0; i < platformBounds.length / 2; i++)
     {
-        leftCollision = true;
-        rightCollision = false;
-        if (inDarkWorld == true)
+        bounds[2 * i] = new createjs.Rectangle(0, 0, 1, 1);
+        bounds[(2 * i) + 1] = new createjs.Rectangle(0, 0, 1, 1);
+        bounds[2 * i].x = platformBounds[2 * i].x;
+        bounds[2 * i].y = platformBounds[2 * i].y;
+        bounds[2 * i].width = platformBounds[2 * i].width;
+        bounds[2 * i].height = platformBounds[2 * i].height;
+
+        bounds[(2 * i) + 1].x = platformBounds[(2 * i) + 1].x;
+        bounds[(2 * i) + 1].y = platformBounds[(2 * i) + 1].y;
+        bounds[(2 * i) + 1].width = platformBounds[(2 * i) + 1].width;
+        bounds[(2 * i) + 1].height = platformBounds[(2 * i) + 1].height;
+    }
+    for (var i = 0; i < jBounds.length; i++)
+    {
+        janusBounds[i] = new createjs.Rectangle(0, 0, 1, 1);
+        janusBounds[i].x = jBounds[i].x;
+        janusBounds[i].y = jBounds[i].y;
+        janusBounds[i].width = jBounds[i].width;
+        janusBounds[i].height = jBounds[i].height;
+    }
+    for (var i = 0; i < janusBounds.length; i++)
+    {
+        if (bounds[i].x <= janusBounds[i].x + janusBounds[i].width && bounds[i].x + bounds[i].width >= janusBounds[i].x && bounds[i].y <= janusBounds[i].y + janusBounds[i].height && bounds[i].y + bounds[i].height >= janusBound[i].y)
         {
-            meter -= 10;
-            lumen.x -= 10;
+            leftCollision = true;
+            rightCollision = false;
+                for(var j = 0; j < janus.length; j++)
+                {
+                    janus.x += 10;
+                }
+        }
+        if(bounds[i].x + bounds[i].width == janusBounds[i].x)
+        {
+            leftCollision = false;
+            rightCollision = true;
+            if (light != true) {
+                meter -= 10;
+                for(var j = 0; j < janus.length; j++)
+                {
+                    janus[i].x += 10;
+                }
+
+            }
         }
     }
 }
