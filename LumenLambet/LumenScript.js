@@ -12,8 +12,8 @@ function walk(e) {
 }
 
 function jump(e) {
-    if (grounded == true) {
-        lumen.y -= 150;
+    if (grounded == true){
+        createjs.Tween.get(lumen).to({y:lumen.y-150}, 1000);
         grounded = false;
     }
 }
