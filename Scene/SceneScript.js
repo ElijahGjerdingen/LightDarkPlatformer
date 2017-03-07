@@ -188,6 +188,9 @@ function init() {
     stage.addChild(lumen);
 
     lightDarkJanus(25, 250, 0, janusSpriteSheet, janusDarkSpriteSheet);
+    lightDarkJanus(100, 600, 1, janusSpriteSheet, janusDarkSpriteSheet);
+    lightDarkJanus(900, 400, 2, janusSpriteSheet, janusDarkSpriteSheet);
+    lightDarkJanus(700, 200, 3, janusSpriteSheet, janusDarkSpriteSheet);
 
     /*janus = new createjs.Sprite(janusSpriteSheet, 'stand')
     janus.x = 25; janus.y = 400;
@@ -218,6 +221,11 @@ function createBlocks() {
     lightDarkPlatform(0, 550, 10, 11, "SLPlatform", "SDPlatform");
     lightDarkPlatform(50, 400, 12, 13, "SLPlatform", "SDPlatform");
     lightDarkPlatform(300, 250, 14, 15, "LLPlatform", "LDPlatform");
+    lightDarkPlatform(1700, 250, 16, 17, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(1200, 550, 18, 19, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(1100, 250, 20, 21, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(1600, 450, 22, 23, "SLPlatform", "SDPlatform");
+    lightDarkPlatform(900, 410, 24, 25, "SLPlatform", "SDPlatform");
 }
 
 function moveScene() {
@@ -294,7 +302,13 @@ function tick() {
     if (meter <= 0) {
         displayLose();
     }
-
+    if (lumen.x <= 1775 + 400 * .25 && lumen.x + lumenWidth >= 1775 && !light)
+    {
+        if (lumen.y <= 40 + 400 * 25 && lumen.y + lumenHeight >= 40)
+        {
+            displayWin();
+        }
+    }
 
     //Lumen
     if (leftkeydown || rightkeydown) {
