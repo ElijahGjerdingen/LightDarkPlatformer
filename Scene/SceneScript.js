@@ -17,6 +17,8 @@ var leftkeydown = false;
 var rightkeydown = false;
 var upkeydown = false;
 var lumen;
+var lumenWalk;
+var lumenJump;
 var janus = [];
 var janusD = [];
 var image;
@@ -144,8 +146,17 @@ function init() {
             _jump: 12,
             _fall: 13,
         },
-        // framerate: 2
+        //framerate: .25
+        speed: .5
     });
+    lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
+    lumen.addEventListener("change", walk);
+    lumen.x = 2; lumen.y = 735;
+    lumen.scaleX = .21739; lumen.scaleY = .20833;
+    lumenHeight = 75; lumenWidth = 75;
+    stage.addChild(lumen);
+
+    //lumen = new createjs.Sprite(lumenSpriteSheet, stand);
 
     janusSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("LJanus")],
@@ -179,14 +190,6 @@ function init() {
     stage.addChild(lightSprite);
     lightSprite.visible = false;
 
-
-    createjs.SpriteSheetUtils.addFlippedFrames(lumenSpriteSheet, true, false, false);
-    lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
-    lumen.x = 2; lumen.y = 735;
-    lumen.scaleX = .21739; lumen.scaleY = .20833;
-    lumenHeight = 75; lumenWidth = 75;
-    stage.addChild(lumen);
-
     lightDarkJanus(25, 250, 0, janusSpriteSheet, janusDarkSpriteSheet);
     lightDarkJanus(100, 600, 1, janusSpriteSheet, janusDarkSpriteSheet);
     lightDarkJanus(900, 400, 2, janusSpriteSheet, janusDarkSpriteSheet);
@@ -201,7 +204,6 @@ function init() {
     stage.addChild(janusD);*/
 
     //audio
-
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
@@ -246,6 +248,7 @@ function moveScene() {
   
 
 }
+
 function updateCamera() {
     var xMin = 0 + camera.x * camera.zoom - size;
     var yMin = 0 + camera.y * camera.zoom - size;
@@ -255,6 +258,7 @@ function updateCamera() {
     cameraContainer.x = -camera.x + camera.zoom;
     cameraContainer.x = -camera.y + camera.zoom;
 }
+
 function tick() {
     if (meter <= 50) {
         light = false;
@@ -359,6 +363,7 @@ function lightDarkPlatform(platX, platY, lightI, darkI, imageStringL, imageStrin
     platformBounds[darkI].x = platX;
     platformBounds[darkI].x = platY;
 }
+
 function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet) {
     janus.push(new createjs.Sprite(lightSpriteSheet, 'stand'));
     janus[jI].x = jX; janus[jI].y = jY;
@@ -376,6 +381,7 @@ function lightDarkJanus(jX, jY, jI, lightSpriteSheet, darkSpriteSheet) {
     jDBounds[jI].x = jX;
     jDBounds[jI].y = jY;
 }
+
 function handleKeyDown(e) {
     switch (e.keyCode) {
         case 65: leftkeydown = true; break;
@@ -393,6 +399,7 @@ function handleKeyUp(e) {
         case 83: downkeydown = false; break;
     }
 }
+
 function CheckRectIntersection() {
     grounded = false;
     for (var i = 0; i < platformBounds.length; i++)
