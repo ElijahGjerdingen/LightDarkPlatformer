@@ -2,11 +2,21 @@
 function walk(e) {
     if (leftkeydown) {
         goingRight = false;
-        lumen.x -= 5;
+        //lumen.gotoAndPlay(_walk);
+        
+        lumen.addEventListener("change", _walk);
+        var s = e.target;
+        s.x -= 5;
+        //lumen.x -= 5;
     }
-    if (rightkeydown) {
+    else if (rightkeydown) {
         goingRight = true;
+        //lumen.gotoAndPlay(walk);
+        //lumen = new createjs.Sprite(lumenSpriteSheet, 'walk');
+        lumen.addEventListener("change", walk);
         lumen.x += 5;
+    } else if (!(rightkeydown || leftkeydown)){
+        lumen.gotoAndPlay(stand);
     }
 }
 
