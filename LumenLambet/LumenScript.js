@@ -1,22 +1,19 @@
 //Lumen code
+
 function walk(e) {
     if (leftkeydown) {
         goingRight = false;
-        //lumen.gotoAndPlay(_walk);
+        lumen.gotoAndPlay(_walk);
         
-        lumen.addEventListener("change", _walk);
-        var s = e.target;
-        s.x -= 5;
-        //lumen.x -= 5;
+        lumen.addEventListener("KeyboardEvent", _walk);
+        lumen.x -= 5;
     }
     else if (rightkeydown) {
         goingRight = true;
-        //lumen.gotoAndPlay(walk);
-        //lumen = new createjs.Sprite(lumenSpriteSheet, 'walk');
-        lumen.addEventListener("change", walk);
+        lumen.gotoAndPlay(walk);
         lumen.x += 5;
     } else if (!(rightkeydown || leftkeydown)){
-        lumen.gotoAndPlay(stand);
+        lumen.currentFrame = 0;
     }
 }
 
