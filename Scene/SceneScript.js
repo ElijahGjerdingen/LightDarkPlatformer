@@ -19,6 +19,7 @@ var upkeydown = false;
 var lumen;
 var lumenWalk;
 var lumenJump;
+//Janus
 var janus = [];
 var janusD = [];
 var image;
@@ -80,19 +81,33 @@ function load() {
 
 function init() {
     light = true;
+    stage = new createjs.Stage("canvas");
 
-    //audio
+    //createAudio();
+    createBackground();
+    createBlocks();
+    createLumen();
+    createJanus();
+
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addEventListener("tick", tick);
+
+    window.onkeydown = handleKeyDown;
+    window.onkeyup = handleKeyUp;
+
+    stage.update();
+}
+
+function createAudio() {
     rainbow = createjs.Sound.createInstance("Rainbow");
     madWorld = createjs.Sound.createInstance("MadWorld");
     rainbow.setVolume(.5);
     madWorld.setVolume(.5);
     rainbow.play();
+    createjs.Sound.play("LMusic", createjs.Sound.INTERUPT_NONE, 0, 0, -1, .5, 0);
+}
 
-    stage = new createjs.Stage("canvas");
-
-    createjs.Ticker.setFPS(60);
-    createjs.Ticker.addEventListener("tick", tick);
-
+function createBackground(){
     var background = new createjs.Bitmap(preload.getResult("LBackground"));
     var mountains = new createjs.Bitmap(preload.getResult("Mountains"));
     var trees = new createjs.Bitmap(preload.getResult("Trees"));
@@ -127,37 +142,35 @@ function init() {
     stage.addChild(backgroundContainer, darkBackgroundContainer);
     darkBackgroundContainer.visible = false;
 
-    createjs.Sound.play("LMusic", createjs.Sound.INTERUPT_NONE, 0, 0, -1, .5, 0);
-    createBlocks();
+}
 
-    //Lumen init stuff
+function createLumen() {
     goingRight = true;
     grounded = true;
-
     lumenSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("Lumen")],
-        frames: { width: 345, height: 360, count: 7 },
+        frames: { width: 345, height: 360, count: 7, regX: 345 / 2, regY: 0 },
         animations: {
             stand: 0,
             walk: [1, 4],
             jump: 5,
             fall: 6,
-            _walk: [8, 11],
+            /*_walk: [8, 11],
             _jump: 12,
-            _fall: 13,
+            _fall: 13,*/
         },
-        //framerate: .25
-        speed: .5
+        framerate: .25
+        //speed: .5
     });
-    lumen = new createjs.Sprite(lumenSpriteSheet, 'stand');
-    lumen.addEventListener("change", walk);
-    lumen.x = 2; lumen.y = 735;
+    lumen = new createjs.Sprite(lumenSpriteSheet/*, 'stand'*/);
+    lumen.gotoAndPlay("stand");
+    lumen.x = 60; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
     lumenHeight = 75; lumenWidth = 75;
     stage.addChild(lumen);
+}
 
-    //lumen = new createjs.Sprite(lumenSpriteSheet, stand);
-
+function createJanus() {
     janusSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("LJanus")],
         frames: { width: 75, height: 100, count: 6 },
@@ -202,13 +215,6 @@ function init() {
     janusD = new createjs.Sprite(janusDarkSpriteSheet, 'stand')
     janusD.x = 25; janus.y = 400;
     stage.addChild(janusD);*/
-
-    //audio
-
-    window.onkeydown = handleKeyDown;
-    window.onkeyup = handleKeyUp;
-
-    stage.update();
 }
 
 function createBlocks() {
