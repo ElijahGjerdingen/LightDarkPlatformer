@@ -70,7 +70,7 @@ function load() {
         { id: "LDPlatform", src: "/Scene/LongFloatDark.png" },
         { id: "DarkTrees", src: "/Scene/TreesDark.png" },
         { id: "DarkMountains", src: "/Scene/BackhillDark.png" },
-        { id: "Lumen", src: "/LumenLambet/SpriteSheet.png" },
+        { id: "Lumen", src: "/LumenLambet/SpriteSheet360.png" },
         { id: "LJanus", src: "/Janus/Frank.png" },
         { id: "DJanus", src: "/Janus/DarkFrank.png" },
         { id: "Light", src: "/Scene/light.png" },
@@ -150,18 +150,14 @@ function createLumen() {
     grounded = true;
     lumenSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("Lumen")],
-        frames: { width: 345, height: 360, count: 7, regX: 345 / 2, regY: 0 },
+        frames: { width: 354, height: 375, count: 7, regX: 345 / 2, regY: 0 },
         animations: {
             stand: 0,
-            walk: [1, 4],
+            walk: [1, 4, 'walk', .5],
             jump: 5,
             fall: 6,
-            /*_walk: [8, 11],
-            _jump: 12,
-            _fall: 13,*/
         },
         framerate: .25
-        //speed: .5
     });
     lumen = new createjs.Sprite(lumenSpriteSheet);
     lumen.x = 60; lumen.y = 735;
@@ -321,15 +317,49 @@ function tick() {
     }
 
     //Lumen
-    if (leftkeydown || rightkeydown) {
-        walk();
+    if (rightkeydown) {
+        walkR();
+        //LumenScript.walkR();
+    } else if (leftkeydown) {
+        walkL();
     }
-    if (upkeydown && grounded) {
+    if (upkeydown) {
         jump();
     }
-    //lumen.addEventListener("onkeydown", walk);
-    
+    if (!(upkeydown || rightkeydown || leftkeydown)) {
+        if (!grounded) {
+            lumen.gotoAndPlay('fall');
+        }
+        else {
+            lumen.gotoAndPlay('stand');
+        }
+    }
+
     stage.update();
+}
+
+function walkR() {
+    if (!moving) {
+        moving = true;
+        lumen.scaleX = .21739;
+        lumen.gotoAndPlay('walk');
+    }
+    lumen.x += 5;
+}
+
+function walkL() {
+    if (!moving) {
+        moving = true;
+        lumen.scaleX = -.21739;
+        lumen.gotoAndPlay('walk');
+    }
+    lumen.x -= 5;
+}
+
+function jump() {
+    lumen.gotoAndPlay('jump');
+    createjs.Tween.get(lumen).to({ y: lumen.y - 150 }, 1000);
+    grounded = false;
 }
 
 function displayLose() {
@@ -401,8 +431,8 @@ function handleKeyDown(e) {
 
 function handleKeyUp(e) {
     switch (e.keyCode) {
-        case 65: leftkeydown = false; break;
-        case 68: rightkeydown = false; break;
+        case 65: leftkeydown = false; moving = false; break;
+        case 68: rightkeydown = false; moving = false; break;
         case 87: upkeydown = false; break;
         case 83: downkeydown = false; break;
     }
