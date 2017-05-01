@@ -3,14 +3,12 @@
 function walk(e) {
     if (leftkeydown) {
         goingRight = false;
-        lumen.gotoAndPlay(_walk);
-        
-        lumen.addEventListener("KeyboardEvent", _walk);
+        lumen.gotoAndPlay(walk);
         lumen.x -= 5;
     }
     else if (rightkeydown) {
         goingRight = true;
-        lumen.gotoAndPlay(walk);
+        lumen.walk;
         lumen.x += 5;
     } else if (!(rightkeydown || leftkeydown)){
         lumen.currentFrame = 0;
