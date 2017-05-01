@@ -37,7 +37,3 @@ function jump(e) {
     createjs.Tween.get(lumen).to({y:lumen.y-150}, 1000);
     grounded = false;
 }
-
-function movement() {
-
-}
