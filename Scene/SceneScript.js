@@ -83,7 +83,7 @@ function init() {
     light = true;
     stage = new createjs.Stage("canvas");
 
-    //createAudio();
+    createAudio();
     createBackground();
     createBlocks();
     createLumen();

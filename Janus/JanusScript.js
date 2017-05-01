@@ -1,30 +1,47 @@
 // JavaScript source code
 var janusBounds = [];
 var bounds = [];
-var rightCollision = false;
-var leftCollision = true;
+var rightCollision = [];
+var leftCollision = [];
+var idxR = true;
+var idxL = false;
 function move(e)
 {
-    for (var i = 0; i < janus.length; i++) {
-        if (janus[i].x > stage.canvas.width - 20 || janusD[i].x > stage.canvas.width - 20) {
-            rightCollision = true;
-            leftCollision = false;
+    for (var i = 0; i < janus.length; i++)
+    {
+        if (rightCollision[i] != true && leftCollision[i] != true) {
+            leftCollision[i] = false;
+            rightCollision[i] = true;
         }
-        if (janus[i].x < 25 || janusD[i].x < 25) {
-            leftCollision = true;
-            rightCollision = false;
+        if (janus[i].x > stage.canvas.width - 20 || janusD[i].x > stage.canvas.width - 20)
+        {
+            rightCollision[i] = true;
+            leftCollision[i] = false;
         }
+        if (janus[i].x < 25 || janusD[i].x < 25)
+        {
+            leftCollision[i] = true;
+            rightCollision[i] = false;
+        }
+        /*
+        else if (leftCollision[i] != true && rightCollision[i] != true) {
+            rightCollision[i] = false;
+            leftCollision[i] = true;
+        }*/
     }
-    for (var i = 0; i < janus.length; i++) {
-        if (rightCollision == true) {
-            
+    for (var i = 0; i < janus.length; i++)
+    {
+        idxR = rightCollision[i];
+        idxL = leftCollision[i];
+        if (idxR == true)
+        {
             janus[i].x -= 4;
             janusD[i].x -= 4;
             jBounds[i].x -= 4;
             jDBounds[i].x -= 4;
         }
-        if (leftCollision == true) {
-            
+        if (idxL== true)
+        {   
             janus[i].x += 4;
             janusD[i].x += 4;
             jBounds[i].x += 4;
