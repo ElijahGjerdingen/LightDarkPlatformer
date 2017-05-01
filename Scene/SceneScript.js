@@ -19,6 +19,7 @@ var upkeydown = false;
 var lumen;
 var lumenWalk;
 var lumenJump;
+var moving;
 //Janus
 var janus = [];
 var janusD = [];
