@@ -9,6 +9,7 @@ var idxR = true;
 var idxL = false;
 var goingLeft = [];
 var goingRight = [];
+var beenHit = false;
 function move(e) {
     for (var i = 0; i < janus.length; i++) {
         if (rightCollision[i] != true && leftCollision[i] != true) {
@@ -79,6 +80,8 @@ function collision(e) {
         janusBounds[i].y = jBounds[i].y;
         janusBounds[i].width = 75;
         janusBounds[i].height = 100;
+        janusBounds[i].right = janus[i].x + janusWidth / 2;
+        janusBounds[i].left = janus[i].x - janusWidth / 2;
     }
     /*for (var j = 0; j < bounds.length / 2; j++) {
         for (var i = 0; i < janusBounds.length; i++) {
@@ -104,18 +107,32 @@ function collision(e) {
             }
         }
     }*/
-    for (var i = 0; i < janusBounds.length; i++) {
-        if (janusBounds[i].x + janusBounds[i].width > lumen.x && lumen.x + lumenWidth > janusBounds[i].x && !light) {
-            if (janusBounds[i].y + janusBounds[i].height > lumen.y && lumen.y + lumenHeight > janusBounds[i].y) {
-                if (lumen.x + lumenWidth > janusBounds[i].x)
-                {
-                meter -= 10;
-                lumen.x = janusBounds[i].x - (lumenWidth + 25);
-                }
-                if(janusBounds[i].x + janusBounds[i].width > lumen.x )
-                {
+    if (!beenHit)
+    {
+        var lumenLeft = lumen.x - lumenWidth / 2;
+        var lumenRight = lumen.x + lumenWidth / 2;
+        for (var i = 0; i < janusBounds.length; i++) {
+            if (janusBounds[i].right > lumenLeft && lumenRight > janusBounds[i].left && !light) {
+                if (janusBounds[i].y + janusBounds[i].height > lumen.y && lumen.y + lumenHeight > janusBounds[i].y) {
+
                     meter -= 10;
-                    lumen.x = janusBounds[i].x + janusWidth + 25;
+                    
+                    
+                    if (lumenRight > janusBounds[i].left && lumenRight < janusBounds[i].x) {
+                        lumen.x = janusBounds[i].left - (lumenWidth / 2 + 25);
+                        
+                    }
+                    if (janusBounds[i].right > lumenLeft && janusBounds[i].x < lumenLeft) {
+                        lumen.x = janusBounds[i].right + (lumenWidth / 2 + 25);
+                        
+                    }
+                    beenHit = true;
+                    lumen.visible = false;
+                    setTimeout(function () { lumen.visible = true; }, 100);
+                    setTimeout(function () { lumen.visible = false; }, 200);
+                    setTimeout(function () { lumen.visible = true; }, 300);
+                    setTimeout(function () { lumen.visible = false; }, 400);
+                    setTimeout(function () { beenHit = false; lumen.visible = true; }, 500);
                 }
             }
         }
