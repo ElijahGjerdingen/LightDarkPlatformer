@@ -107,8 +107,16 @@ function collision(e) {
     for (var i = 0; i < janusBounds.length; i++) {
         if (janusBounds[i].x + janusBounds[i].width > lumen.x && lumen.x + lumenWidth > janusBounds[i].x && !light) {
             if (janusBounds[i].y + janusBounds[i].height > lumen.y && lumen.y + lumenHeight > janusBounds[i].y) {
+                if (lumen.x + lumenWidth > janusBounds[i].x)
+                {
                 meter -= 10;
                 lumen.x = janusBounds[i].x - (lumenWidth + 25);
+                }
+                if(janusBounds[i].x + janusBounds[i].width > lumen.x )
+                {
+                    meter -= 10;
+                    lumen.x = janusBounds[i].x + janusWidth + 25;
+                }
             }
         }
     }
