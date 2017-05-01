@@ -309,7 +309,7 @@ function tick() {
     }
     if (lumen.x <= 1775 + 400 * .25 && lumen.x + lumenWidth >= 1775 && !light)
     {
-        if (lumen.y >= 40 + 400 * 25 && lumen.y + lumenHeight <= 40)
+        if (lumen.y <= 300 && lumen.y  <= 40)
         {
             displayWin();
         }
