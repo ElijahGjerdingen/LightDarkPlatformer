@@ -1,6 +1,6 @@
 //Lumen code
 
-function walk(e) {
+/*function walk(e) {
     if (leftkeydown) {
         goingRight = false;
         lumen.gotoAndPlay(walk);
@@ -13,6 +13,24 @@ function walk(e) {
     } else if (!(rightkeydown || leftkeydown)){
         lumen.currentFrame = 0;
     }
+}*/
+
+function walkR(){
+    if (!moving) {
+        moving = true;
+        lumen.scaleX = .21739;
+        lumen.gotoAndPlay('walk');
+    }
+    lumen.x += 5;
+}
+
+function walkL() {
+    if (!moving) {
+        moving = true;
+        lumen.scaleX = -.21739;
+        lumen.gotoAndPlay('walk');
+    }
+    lumen.x -= 5;
 }
 
 function jump(e) {
