@@ -323,10 +323,10 @@ function tick() {
     } else if (leftkeydown) {
         walkL();
     }
-    if (upkeydown) {
+    if (upkeydown && grounded) {
         jump();
-    }
-    if (!(upkeydown || rightkeydown || leftkeydown)) {
+        grounded = false;
+    } else if (!(upkeydown || rightkeydown || leftkeydown)) {
         if (!grounded) {
             lumen.gotoAndPlay('fall');
         }
@@ -359,7 +359,6 @@ function walkL() {
 function jump() {
     lumen.gotoAndPlay('jump');
     createjs.Tween.get(lumen).to({ y: lumen.y - 150 }, 1000);
-    grounded = false;
 }
 
 function displayLose() {
