@@ -1,47 +1,56 @@
 // JavaScript source code
+janus.scaleX = 1;
+janusD.scaleX = 1;
 var janusBounds = [];
 var bounds = [];
 var rightCollision = [];
 var leftCollision = [];
 var idxR = true;
 var idxL = false;
-function move(e)
-{
-    for (var i = 0; i < janus.length; i++)
-    {
+var goingLeft = [];
+var goingRight = [];
+function move(e) {
+    for (var i = 0; i < janus.length; i++) {
         if (rightCollision[i] != true && leftCollision[i] != true) {
             leftCollision[i] = false;
             rightCollision[i] = true;
         }
-        if (janus[i].x > stage.canvas.width - 20 || janusD[i].x > stage.canvas.width - 20)
-        {
+        if (janus[i].x > stage.canvas.width - 20 || janusD[i].x > stage.canvas.width - 20) {
             rightCollision[i] = true;
             leftCollision[i] = false;
+            goingLeft[i] = false;
         }
-        if (janus[i].x < 25 || janusD[i].x < 25)
-        {
+        if (janus[i].x < 25 || janusD[i].x < 25) {
             leftCollision[i] = true;
             rightCollision[i] = false;
+            goingRight[i] = false;
         }
-        /*
-        else if (leftCollision[i] != true && rightCollision[i] != true) {
-            rightCollision[i] = false;
-            leftCollision[i] = true;
-        }*/
     }
-    for (var i = 0; i < janus.length; i++)
-    {
+
+    for (var i = 0; i < janus.length; i++) {
         idxR = rightCollision[i];
         idxL = leftCollision[i];
-        if (idxR == true)
-        {
+        if (idxR == true) {
+            if (!goingLeft[i]) {
+                goingLeft[i] = true;
+                janus[i].scaleX = 1;
+                janusD[i].scaleX = 1;
+                janus[i].gotoAndPlay('patrol');
+                janusD[i].gotoAndPlay('patrol');
+            }
             janus[i].x -= 4;
             janusD[i].x -= 4;
             jBounds[i].x -= 4;
             jDBounds[i].x -= 4;
         }
-        if (idxL== true)
-        {   
+        if (idxL == true) {
+            if (!goingRight[i]) {
+                goingRight[i] = true;
+                janus[i].scaleX = -1;
+                janusD[i].scaleX = -1;
+                janus[i].gotoAndPlay('patrol');
+                janusD[i].gotoAndPlay('patrol');
+            }
             janus[i].x += 4;
             janusD[i].x += 4;
             jBounds[i].x += 4;
@@ -49,11 +58,9 @@ function move(e)
         }
     }
 }
-function collision(e)
-{
-    
-    for (var i = 0; i < platformBounds.length / 2; i++)
-    {
+
+function collision(e) {
+    for (var i = 0; i < platformBounds.length / 2; i++) {
         bounds[2 * i] = new createjs.Rectangle(0, 0, 1, 1);
         bounds[(2 * i) + 1] = new createjs.Rectangle(0, 0, 1, 1);
         bounds[2 * i].x = platformBounds[2 * i].x;
@@ -66,8 +73,7 @@ function collision(e)
         bounds[(2 * i) + 1].width = platformBounds[(2 * i) + 1].width;
         bounds[(2 * i) + 1].height = platformBounds[(2 * i) + 1].height;
     }
-    for (var i = 0; i < jBounds.length; i++)
-    {
+    for (var i = 0; i < jBounds.length; i++) {
         janusBounds[i] = new createjs.Rectangle(0, 0, 1, 1);
         janusBounds[i].x = jBounds[i].x;
         janusBounds[i].y = jBounds[i].y;
@@ -98,15 +104,12 @@ function collision(e)
             }
         }
     }*/
-    for(var i = 0; i < janusBounds.length; i++)
-        {
-        if(janusBounds[i].x + janusBounds[i].width > lumen.x && lumen.x + lumenWidth > janusBounds[i].x && !light)
-            {
-                if(janusBounds[i].y + janusBounds[i].height > lumen.y && lumen.y + lumenHeight > janusBounds[i].y)
-                {
-                    meter -= 10;
-                    lumen.x = janusBounds[i].x - (lumenWidth + 25);
-                }
+    for (var i = 0; i < janusBounds.length; i++) {
+        if (janusBounds[i].x + janusBounds[i].width > lumen.x && lumen.x + lumenWidth > janusBounds[i].x && !light) {
+            if (janusBounds[i].y + janusBounds[i].height > lumen.y && lumen.y + lumenHeight > janusBounds[i].y) {
+                meter -= 10;
+                lumen.x = janusBounds[i].x - (lumenWidth + 25);
             }
         }
+    }
 }

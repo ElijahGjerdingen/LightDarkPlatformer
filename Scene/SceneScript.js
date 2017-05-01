@@ -153,7 +153,7 @@ function createLumen() {
         frames: { width: 354, height: 375, count: 7, regX: 345 / 2, regY: 0 },
         animations: {
             stand: 0,
-            walk: [1, 4, 'walk', .5],
+            walk: [1, 4, 'walk', .25],
             jump: 5,
             fall: 6,
         },
@@ -169,19 +169,19 @@ function createLumen() {
 function createJanus() {
     janusSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("LJanus")],
-        frames: { width: 75, height: 100, count: 6 },
+        frames: { width: 75, height: 100, count: 6, regX: 37.5, regY: 0 },
         animations: {
             stand: [0, 2],
-            patrol: [3, 5]
+            patrol: [3, 5, 'patrol', .25]
         }
     });
-
+ 
     janusDarkSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("DJanus")],
-        frames: { width: 75, height: 100, count: 6 },
+        frames: { width: 75, height: 100, count: 6, regX: 37.5, regY: 0 },
         animations: {
             stand: [0, 2],
-            patrol: [3, 5]
+            patrol: [3, 5, 'patrol', .25]
         }
     });
 
@@ -292,7 +292,6 @@ function tick() {
             janusD[i].visible = false;
         }
     }
-    
     if (!grounded) {
         lumen.y += grav;
     }
@@ -316,7 +315,7 @@ function tick() {
         }
     }
 
-    //Lumen
+    //Lumen movement
     if (rightkeydown) {
         walkR();
         //LumenScript.walkR();
