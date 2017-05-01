@@ -1,0 +1,4 @@
+Open LightDarkPlatformer.html in VisualStudio.
+LightDarkPlatformer.html can be found on the same level as these instructions.
+Once in VisualStudio, run the program in Google Chrome. It may take a few seconds to load.
+Enjoy!
