@@ -52,6 +52,7 @@ var grav = 2;
 var lumenHeight;
 var lumenWidth;
 var janusWidth;
+var thisisAChange = 0;
 
 function load() {
     preload = new createjs.LoadQueue(true);
