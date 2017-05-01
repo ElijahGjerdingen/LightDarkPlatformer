@@ -48,6 +48,7 @@ var jDBounds = [];
 var grav = 2;
 var lumenHeight;
 var lumenWidth;
+var janusWidth;
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -175,7 +176,8 @@ function createJanus() {
             patrol: [3, 5, 'patrol', .25]
         }
     });
- 
+    janusWidth = 75;
+
     janusDarkSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("DJanus")],
         frames: { width: 75, height: 100, count: 6, regX: 37.5, regY: 0 },
@@ -362,6 +364,7 @@ function jump() {
 
 function displayLose() {
     stage.removeAllChildren();
+    removeJanus();
     loseText.textBaseLine = "middle";
     loseText.textAlign = "center";
     loseText.x = stage.canvas.width / 2;
@@ -372,6 +375,7 @@ function displayLose() {
 
 function displayWin() {
     stage.removeAllChildren();
+    removeJanus();
     winText.textBaseLine = "middle";
     winText.textAlign = "center";
     winText.x = stage.canvas.width / 2;
@@ -433,6 +437,13 @@ function handleKeyUp(e) {
         case 68: rightkeydown = false; moving = false; break;
         case 87: upkeydown = false; break;
         case 83: downkeydown = false; break;
+    }
+}
+function removeJanus()
+{
+    for(var i = 0; i < janus.length; i++)
+    {
+        janus[i] = null;
     }
 }
 
