@@ -53,6 +53,7 @@ var grav = 2;
 var lumenHeight;
 var lumenWidth;
 var janusWidth;
+var thisisAChange = 0;
 
 function load() {
     preload = new createjs.LoadQueue(true);
@@ -180,6 +181,10 @@ function createJanus() {
             patrol: [3, 5, 'patrol', .25]
         }
     });
+<<<<<<< HEAD
+=======
+    janusWidth = 75;
+>>>>>>> refs/remotes/origin/master
 
     janusDarkSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("DJanus")],
