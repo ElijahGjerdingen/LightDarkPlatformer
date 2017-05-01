@@ -8,6 +8,7 @@ var darkBackgroundContainer;
 var backgroundContainer2;
 var darkBackgroundContainer2;
 var light;
+var timeOfTick;
 //Lumen
 const ARROW_KEY_Up = 87;
 const ARROW_KEY_Down = 83;
@@ -29,9 +30,9 @@ var lightSpriteSheet;
 var lightSprite;
 var goingRight = false;
 var grounded = false;
-var insText = new createjs.Text("Use the AWSD keys to move.", "72px Arial", "black");
-var insText2 = new createjs.Text("Watch out for angry ghosts.", "72px Arial", "black");
-var insText3 = new createjs.Text("Get to the light.", "72px Arial", "black");
+var insText = new createjs.Text("Use the WASD keys to move.", "35px Arial", "black");
+var insText2 = new createjs.Text("Watch out for angry ghosts.", "35px Arial", "black");
+var insText3 = new createjs.Text("Get to the light!", "35px Arial", "black");
 var loseText = new createjs.Text("GAME OVER", "200px Arial", "pink");
 var winText = new createjs.Text("YOU WIN", "200px Arial", "pink");
 var camera = {
@@ -179,10 +180,6 @@ function createJanus() {
             patrol: [3, 5, 'patrol', .25]
         }
     });
-<<<<<<< HEAD
-=======
-    janusWidth = 75;
->>>>>>> origin/master
 
     janusDarkSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("DJanus")],
@@ -299,7 +296,6 @@ function tick() {
             janus[i].visible = true;
             janusD[i].visible = false;
         }
-        displayInsText();
     }
     if (!grounded) {
         lumen.y += grav;
@@ -308,41 +304,48 @@ function tick() {
     move();
     collision();
     moveScene();
-    if (!light) {
+    if (light) {
+        displayInsText();
+    } else if (!light) {
         lightSprite.visible = true;
         rainbow.setVolume(0);
         madWorld.play();
         displayInsText2();
+        displayIntText3();
+        //timeOfTick = Ticker.getTime();
     }
-    if (meter <= 0) {
-        displayLose();
-    }
-    if (lumen.x <= 1775 + 400 * .25 && lumen.x + lumenWidth >= 1775 && !light) {
-        if (lumen.y <= 300 && lumen.y <= 40) {
-            displayWin();
-        }
-    }
+    //if (Ticker.getTime = timeOfTick + 300) {
+    //  hideIntTexts();
 
-    //Lumen movement
-    if (rightkeydown) {
-        walkR();
-        //LumenScript.walkR();
-    } else if (leftkeydown) {
-        walkL();
+if (meter <= 0) {
+    displayLose();
+}
+if (lumen.x <= 1775 + 400 * .25 && lumen.x + lumenWidth >= 1775 && !light) {
+    if (lumen.y <= 300 && lumen.y <= 40) {
+        displayWin();
     }
-    if (upkeydown && grounded) {
-        jump();
-        grounded = false;
-    } else if (!(upkeydown || rightkeydown || leftkeydown)) {
-        if (!grounded) {
-            lumen.gotoAndPlay('fall');
-        }
-        else {
-            lumen.gotoAndPlay('stand');
-        }
-    }
+}
 
-    stage.update();
+//Lumen movement
+if (rightkeydown) {
+    walkR();
+    //LumenScript.walkR();
+} else if (leftkeydown) {
+    walkL();
+}
+if (upkeydown && grounded) {
+    jump();
+    grounded = false;
+} else if (!(upkeydown || rightkeydown || leftkeydown)) {
+    if (!grounded) {
+        lumen.gotoAndPlay('fall');
+    }
+    else {
+        lumen.gotoAndPlay('stand');
+    }
+}
+
+stage.update();
 }
 
 function walkR() {
@@ -369,7 +372,7 @@ function jump() {
 }
 
 function displayInsText() {
-    insText.x = stage.canvas.width / 2;
+    insText.x = 100;
     insText.y = 50;
     stage.addChild(insText);
     stage.update();
@@ -377,19 +380,29 @@ function displayInsText() {
 
 function displayInsText2() {
     stage.removeChild(insText);
-    insText2.x = stage.canvas.width / 2;
+    insText2.x = 100;
     insText2.y = 50;
     stage.addChild(insText2);
     stage.update();
 }
 
+function displayIntText3() {
+    stage.removeChild(insText);
+    insText3.x = 1450;
+    insText3.y = 50;
+    stage.addChild(insText3);
+    stage.update();
+}
+
+function hideIntTexts() {
+    stage.removeChild(insText2, insText3);
+    stage.update();
+}
+
 function displayLose() {
     stage.removeAllChildren();
-<<<<<<< HEAD
     madWorld.setVolume(0);
-=======
     removeJanus();
->>>>>>> origin/master
     loseText.textBaseLine = "middle";
     loseText.textAlign = "center";
     loseText.x = stage.canvas.width / 2;
@@ -400,11 +413,8 @@ function displayLose() {
 
 function displayWin() {
     stage.removeAllChildren();
-<<<<<<< HEAD
     madWorld.setVolume(0);
-=======
     removeJanus();
->>>>>>> origin/master
     winText.textBaseLine = "middle";
     winText.textAlign = "center";
     winText.x = stage.canvas.width / 2;
