@@ -19,6 +19,7 @@ var upkeydown = false;
 var lumen;
 var lumenWalk;
 var lumenJump;
+var moving;
 //Janus
 var janus = [];
 var janusD = [];
@@ -80,7 +81,6 @@ function load() {
 }
 
 function init() {
-    light = true;
     stage = new createjs.Stage("canvas");
 
     createAudio();
@@ -107,7 +107,8 @@ function createAudio() {
     createjs.Sound.play("LMusic", createjs.Sound.INTERUPT_NONE, 0, 0, -1, .5, 0);
 }
 
-function createBackground(){
+function createBackground() {
+    light = true;
     var background = new createjs.Bitmap(preload.getResult("LBackground"));
     var mountains = new createjs.Bitmap(preload.getResult("Mountains"));
     var trees = new createjs.Bitmap(preload.getResult("Trees"));
@@ -162,8 +163,7 @@ function createLumen() {
         framerate: .25
         //speed: .5
     });
-    lumen = new createjs.Sprite(lumenSpriteSheet/*, 'stand'*/);
-    lumen.gotoAndPlay("stand");
+    lumen = new createjs.Sprite(lumenSpriteSheet);
     lumen.x = 60; lumen.y = 735;
     lumen.scaleX = .21739; lumen.scaleY = .20833;
     lumenHeight = 75; lumenWidth = 75;
@@ -327,6 +327,8 @@ function tick() {
     if (upkeydown && grounded) {
         jump();
     }
+    //lumen.addEventListener("onkeydown", walk);
+    
     stage.update();
 }
 
