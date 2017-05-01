@@ -29,6 +29,9 @@ var lightSpriteSheet;
 var lightSprite;
 var goingRight = false;
 var grounded = false;
+var insText = new createjs.Text("Use the AWSD keys to move.", "72px Arial", "black");
+var insText2 = new createjs.Text("Watch out for angry ghosts.", "72px Arial", "black");
+var insText3 = new createjs.Text("Get to the light.", "72px Arial", "black");
 var loseText = new createjs.Text("GAME OVER", "200px Arial", "pink");
 var winText = new createjs.Text("YOU WIN", "200px Arial", "pink");
 var camera = {
@@ -175,7 +178,7 @@ function createJanus() {
             patrol: [3, 5, 'patrol', .25]
         }
     });
- 
+
     janusDarkSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("DJanus")],
         frames: { width: 75, height: 100, count: 6, regX: 37.5, regY: 0 },
@@ -247,7 +250,7 @@ function moveScene() {
             darkBackgroundContainer.getChildAt((2 * i) + 1).x = 1900;
         }
     }
-  
+
 
 }
 
@@ -274,7 +277,7 @@ function tick() {
             janus[i].visible = false;
             janusD[i].visible = true;
         }
-
+        displayInsText2();
     }
     else if (meter > 50) {
         meter -= 1 / 15;
@@ -291,6 +294,7 @@ function tick() {
             janus[i].visible = true;
             janusD[i].visible = false;
         }
+        displayInsText();
     }
     if (!grounded) {
         lumen.y += grav;
@@ -303,14 +307,13 @@ function tick() {
         lightSprite.visible = true;
         rainbow.setVolume(0);
         madWorld.play();
+        displayInsText2();
     }
     if (meter <= 0) {
         displayLose();
     }
-    if (lumen.x <= 1775 + 400 * .25 && lumen.x + lumenWidth >= 1775 && !light)
-    {
-        if (lumen.y <= 300 && lumen.y  <= 40)
-        {
+    if (lumen.x <= 1775 + 400 * .25 && lumen.x + lumenWidth >= 1775 && !light) {
+        if (lumen.y <= 300 && lumen.y <= 40) {
             displayWin();
         }
     }
@@ -360,8 +363,24 @@ function jump() {
     createjs.Tween.get(lumen).to({ y: lumen.y - 150 }, 1000);
 }
 
+function displayInsText() {
+    insText.x = stage.canvas.width / 2;
+    insText.y = 50;
+    stage.addChild(insText);
+    stage.update();
+}
+
+function displayInsText2() {
+    stage.removeChild(insText);
+    insText2.x = stage.canvas.width / 2;
+    insText2.y = 50;
+    stage.addChild(insText2);
+    stage.update();
+}
+
 function displayLose() {
     stage.removeAllChildren();
+    madWorld.setVolume(0);
     loseText.textBaseLine = "middle";
     loseText.textAlign = "center";
     loseText.x = stage.canvas.width / 2;
@@ -372,6 +391,7 @@ function displayLose() {
 
 function displayWin() {
     stage.removeAllChildren();
+    madWorld.setVolume(0);
     winText.textBaseLine = "middle";
     winText.textAlign = "center";
     winText.x = stage.canvas.width / 2;
@@ -438,23 +458,18 @@ function handleKeyUp(e) {
 
 function CheckRectIntersection() {
     grounded = false;
-    for (var i = 0; i < platformBounds.length; i++)
-    {
-        if (lumen.x + lumenWidth >= (platformBounds[i].x) && lumen.x <= (platformBounds[i].x + platformBounds[i].width))
-        {
-            if (lumen.y + lumenHeight <= (platformBounds[i].y + platformBounds[i].height) && lumen.y + lumenHeight >= (platformBounds[i].y))
-            {
+    for (var i = 0; i < platformBounds.length; i++) {
+        if (lumen.x + lumenWidth >= (platformBounds[i].x) && lumen.x <= (platformBounds[i].x + platformBounds[i].width)) {
+            if (lumen.y + lumenHeight <= (platformBounds[i].y + platformBounds[i].height) && lumen.y + lumenHeight >= (platformBounds[i].y)) {
                 grounded = true;
                 lumen.y = platformBounds[i].y - lumenHeight;
             }
         }
     }
-    if(lumen.x < 25)
-    {
+    if (lumen.x < 25) {
         leftkeydown = false;
     }
-    if(lumen.x > stage.canvas.width)
-    {
+    if (lumen.x > stage.canvas.width) {
         rightkeydown = false;
     }
 }
