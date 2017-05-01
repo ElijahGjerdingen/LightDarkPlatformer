@@ -181,10 +181,7 @@ function createJanus() {
             patrol: [3, 5, 'patrol', .25]
         }
     });
-<<<<<<< HEAD
-=======
     janusWidth = 75;
->>>>>>> refs/remotes/origin/master
 
     janusDarkSpriteSheet = new createjs.SpriteSheet({
         images: [preload.getResult("DJanus")],
