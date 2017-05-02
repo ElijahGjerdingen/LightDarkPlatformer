@@ -314,40 +314,37 @@ function tick() {
         madWorld.play();
         displayInsText2();
         displayIntText3();
-        //timeOfTick = Ticker.getTime();
-    }
-    //if (Ticker.getTime = timeOfTick + 300) {
-    //  hideIntTexts();
 
-if (meter <= 0) {
-    displayLose();
-}
-if (lumen.x <= 1775 + 400 * .25 && lumen.x + lumenWidth >= 1775 && !light) {
-    if (lumen.y <= 300 && lumen.y <= 40) {
-        displayWin();
     }
-}
 
-//Lumen movement
-if (rightkeydown) {
-    walkR();
-    //LumenScript.walkR();
-} else if (leftkeydown) {
-    walkL();
-}
-if (upkeydown && grounded) {
-    jump();
-    grounded = false;
-} else if (!(upkeydown || rightkeydown || leftkeydown)) {
-    if (!grounded) {
-        lumen.gotoAndPlay('fall');
+    if (meter <= 0) {
+        displayLose();
     }
-    else {
-        lumen.gotoAndPlay('stand');
+    if (lumen.x <= 1775 + 400 * .25 && lumen.x + lumenWidth >= 1775 && !light) {
+        if (lumen.y <= 300 && lumen.y <= 40) {
+            displayWin();
+        }
     }
-}
 
-stage.update();
+    //Lumen movement
+    if (rightkeydown) {
+        walkR();
+    } else if (leftkeydown) {
+        walkL();
+    }
+    if (upkeydown && grounded) {
+        jump();
+        grounded = false;
+    } else if (!(upkeydown || rightkeydown || leftkeydown)) {
+        if (!grounded) {
+            lumen.gotoAndPlay('fall');
+        }
+        else {
+            lumen.gotoAndPlay('stand');
+        }
+    }
+
+    stage.update();
 }
 
 function walkR() {
@@ -480,10 +477,9 @@ function handleKeyUp(e) {
         case 83: downkeydown = false; break;
     }
 }
-function removeJanus()
-{
-    for(var i = 0; i < janus.length; i++)
-    {
+
+function removeJanus() {
+    for (var i = 0; i < janus.length; i++) {
         janus[i] = null;
     }
 }
